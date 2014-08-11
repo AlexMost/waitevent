@@ -45,6 +45,5 @@ gulp.task 'dev', ['default'], ->
 gulp.task 'watch_src', ->
     gulp.watch SRC_PATH, ['default']
 
-
 gulp.task 'watch_test', ->
     gulp.watch SRC_TEST_PATH, ['test']
