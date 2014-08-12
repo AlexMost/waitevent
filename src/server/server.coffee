@@ -1,14 +1,22 @@
 express = require 'express'
-mongoose = require 'mongoose'
-mongoose.connect('mongodb://33.33.33.10/waitevent')
-db = mongoose.connection
+React = require 'react'
+{init_db} = require './db'
+WelcomePage = require '../components/welcome_page'
 
-db.on 'error', console.error.bind console, 'connection error:'
-db.on 'open', -> console.log 'db connected successfully'
 
+reactRender = (res, componentClass, props) ->
+    component = new componentClass props
+    str = React.renderComponentToString component
+    res.render('layout', {reactOutput: str})
+
+
+init_db 'mongodb://33.33.33.10/waitevent'
 app = express()
+app.set 'views', __dirname
+app.set 'view engine', 'ejs'
+
 
 app.get '/', (req, res) ->
-    res.send('It works')
+    reactRender res, WelcomePage, {}
 
 server = app.listen(3000, -> console.log 'Listening port 3000')

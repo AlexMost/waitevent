@@ -6,6 +6,7 @@ nodeunit = require  'gulp-nodeunit'
 nodemon = require 'gulp-nodemon'
 
 SRC_PATH = './src/**/*.coffee'
+SRC_EJS_PATH = './src/**/*.ejs'
 SRC_TEST_PATH = './test/**/*.coffee'
 TEST_PATH = './testbuild/**/*.js'
 
@@ -25,13 +26,19 @@ gulp.task 'testbuild', ->
         .pipe(coffee({bare: true}).on('error', gutil.log))
         .pipe(gulp.dest('./testbuild'))
 
+gulp.task 'ejs', ->
+    gulp.src(SRC_EJS_PATH).pipe(gulp.dest('./build'))
+
 
 gulp.task 'test', ['testbuild'], ->
     gulp.src(TEST_PATH)
         .pipe(nodeunit({reporter: "default"}))
 
 
-gulp.task 'dev', ['default'], ->
+gulp.task 'build', ['default', 'ejs']
+
+
+gulp.task 'dev', ['build'], ->
     nodemon(
         script: './build/server/server.js'
         ext: 'js'
@@ -43,7 +50,8 @@ gulp.task 'dev', ['default'], ->
 
 # Watchers
 gulp.task 'watch_src', ->
-    gulp.watch SRC_PATH, ['default']
+    gulp.watch SRC_PATH, ['build']
+
 
 gulp.task 'watch_test', ->
     gulp.watch SRC_TEST_PATH, ['test']
