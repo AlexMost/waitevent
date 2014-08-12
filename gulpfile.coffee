@@ -4,15 +4,19 @@ coffee = require 'gulp-coffee'
 coffeelint = require 'gulp-coffeelint'
 nodeunit = require  'gulp-nodeunit'
 nodemon = require 'gulp-nodemon'
+browserify = require 'gulp-browserify'
 
-SRC_PATH = './src/**/*.coffee'
-SRC_EJS_PATH = './src/**/*.ejs'
+SRC_SERVER_PATH = './src/server/**/*.coffee'
+SRC_CLIENT_PATH = ['./src/client/**/*.coffee',
+                   './src/components/**/*.coffee']
+SRC_EJS_PATH = './src/server/**/*.ejs'
 SRC_TEST_PATH = './test/**/*.coffee'
 TEST_PATH = './testbuild/**/*.js'
 
 
+# ============= Server side tasks =============
 gulp.task 'default', ->
-    gulp.src(SRC_PATH)
+    gulp.src(SRC_SERVER_PATH)
         .pipe(coffeelint())
         .pipe(coffeelint.reporter())
         .pipe(coffee({bare: true}).on('error', gutil.log))
@@ -35,10 +39,10 @@ gulp.task 'test', ['testbuild'], ->
         .pipe(nodeunit({reporter: "default"}))
 
 
-gulp.task 'build', ['default', 'ejs']
+gulp.task 'build_server', ['default', 'ejs']
 
 
-gulp.task 'dev', ['build'], ->
+gulp.task 'dev', ['build_server'], ->
     nodemon(
         script: './build/server/server.js'
         ext: 'js'
@@ -48,9 +52,24 @@ gulp.task 'dev', ['build'], ->
     .on('change', ['watch_src'])
 
 
-# Watchers
+# ============= client-side build tasks =============
+gulp.task 'welcome_page_build', ["default"], ->
+    gulp.src('./build/client/welcome_page.js', {read: false})
+        .pipe(browserify())
+        .pipe(gulp.dest('./build/server/public/js'))
+
+
+gulp.task 'csbuild', ['welcome_page_build']
+gulp.task 'buildall', ['build_server', 'csbuild']
+
+
+# ============= Watchers =============
 gulp.task 'watch_src', ->
-    gulp.watch SRC_PATH, ['build']
+    gulp.watch SRC_SERVER_PATH, ['build_server']
+
+
+gulp.task 'watch_client', ->
+    gulp.watch SRC_CLIENT_PATH, ['csbuild']
 
 
 gulp.task 'watch_test', ->
