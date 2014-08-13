@@ -57,9 +57,15 @@ gulp.task 'welcome_page_build', ["default"], ->
         .pipe(browserify())
         .pipe(gulp.dest('./build/server/public/js'))
 
+gulp.task 'create_event_page_build', ["default"], ->
+    gulp.src('./build/client/create_event_page.js', {read: false})
+        .pipe(browserify())
+        .pipe(gulp.dest('./build/server/public/js'))
 
-gulp.task 'csbuild', ['welcome_page_build']
-
+gulp.task 'csbuild', [
+    'welcome_page_build'
+    'create_event_page_build'
+]
 
 # ============= Watchers =============
 gulp.task 'watch', ->
