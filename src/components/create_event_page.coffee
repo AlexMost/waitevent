@@ -12,5 +12,4 @@ CreateEventPage = React.createClass
             h1 {}, "Create your event event!!!"
 
 
-
 module.exports = CreateEventPage

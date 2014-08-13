@@ -16,10 +16,7 @@ WelcomePage = React.createClass
             div {},
                 unless @props.user
                     a
-                        href: "#"
-                        onClick: (ev) ->
-                            console.log "clicked ..."
-                            ev.preventDefault()
+                        href: "/auth/google"
                         "Authorize"
             div {},
                 a
