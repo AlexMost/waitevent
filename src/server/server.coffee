@@ -18,8 +18,9 @@ app.set 'view engine', 'ejs'
 app.use express.static(path.join(__dirname, 'public'))
 
 
+
 app.get '/', (req, res) ->
     reactRender res, WelcomePage, {}
 
 
-server = app.listen(3000, -> console.log 'Listening port 3000')
+server = app.listen(3000, -> console.log 'Listening port 3001')

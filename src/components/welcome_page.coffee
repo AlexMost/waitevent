@@ -6,7 +6,7 @@ WelcomePage = React.createClass
 
     render: ->
         div {},
-            h1 {}, "Wait event"
+            h1 {}, "Wait event!!!"
             div {},
                 a
                     href: "#"
