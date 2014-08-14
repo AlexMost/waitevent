@@ -6,7 +6,7 @@ bodyParser = require 'body-parser'
 session = require 'express-session'
 
 {init_db} = require './db'
-{init_auth} = require './auth'
+{init_auth, is_logged_in} = require './auth'
 WelcomePage = require '../components/welcome_page'
 CreateEventPage = require '../components/create_event_page'
 {reactRender} = require './react_render'
@@ -37,24 +37,33 @@ app.get '/', (req, res) ->
     )
 
 
-app.get '/create_event', (req, res) ->
+app.get(
+    '/create_event',
+    (req, res) ->
+        reactRender(
+            res
+            CreateEventPage
+            {user: req.user}
+            {initScript: '/js/create_event_page.js'}
+        )
+)
 
-    reactRender(
-        res
-        CreateEventPage
-        {user: req.user}
-        {initScript: '/js/create_event_page.js'}
-    )
 
-
-app.get '/auth/google', passport.authenticate('google')
+app.get('/auth/google',
+    (req, res, next) ->
+        console.log "storing #{req.query.r}"
+        req.session.redirect = req.query.r
+        next()
+    passport.authenticate('google')
+)
 
 
 app.get(
     '/auth/google/return'
     passport.authenticate('google')
     (req, res) ->
-        res.redirect('/')
+        res.redirect req.session.redirect or "back"
+        delete req.session.redirect
 )
 
 

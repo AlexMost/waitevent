@@ -27,4 +27,10 @@ init_auth = ->
         done(null, user)
 
 
-module.exports = {init_auth}
+is_logged_in = (req, res, next) ->
+    if req.user
+        next()
+    else
+        res.redirect '/'
+
+module.exports = {init_auth, is_logged_in}
