@@ -1,7 +1,8 @@
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
 userSchema = Schema
-    name: String
+    googleid: String
+    googleProfile: Object
 
 User = mongoose.model("User", userSchema)
 

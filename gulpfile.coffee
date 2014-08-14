@@ -43,7 +43,7 @@ gulp.task 'test', ['testbuild'], ->
 gulp.task 'buildall', ['default', 'ejs', 'csbuild']
 
 
-gulp.task 'dev', ['buildall'], ->
+gulp.task 'dev', ['watch'], ->
     nodemon(
         script: './build/server/server.js'
         ext: 'js'
@@ -68,7 +68,7 @@ gulp.task 'csbuild', [
 ]
 
 # ============= Watchers =============
-gulp.task 'watch', ->
+gulp.task 'watch', ['buildall'], ->
     gulp.watch SRC_SERVER_PATH, ['buildall']
 
 

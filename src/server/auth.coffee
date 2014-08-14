@@ -1,5 +1,6 @@
 passport = require 'passport'
 GoogleStrategy = require('passport-google').Strategy
+User = require './models/user'
 
 
 init_auth = ->
@@ -7,9 +8,15 @@ init_auth = ->
         (new GoogleStrategy
             returnURL: 'http://localhost:3000/auth/google/return',
             realm: 'http://localhost:3000'
-            (id, profile, done) ->
-                # TODO: create or get user
-                done null, profile
+            (googleid, googleProfile, done) ->
+                User.find {googleid}, (err, users) ->
+                    return done err if err
+                    if users.length
+                        done null, users[0]
+                    else
+                        newUser = new User {googleid, googleProfile}
+                        newUser.save (err, user) ->
+                            done err, user
         )
     )
 
