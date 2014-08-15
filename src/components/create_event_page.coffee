@@ -1,5 +1,6 @@
 React = require 'react'
 {div, h1, a} = React.DOM
+PageBase = require './portlets/base'
 
 CreateEventPage = React.createClass
     displayName: "CreateEventPage"
@@ -8,8 +9,9 @@ CreateEventPage = React.createClass
         user: React.PropTypes.object
 
     render: ->
-        div {},
+        PageBase({user: @props.user},
             h1 {}, "Create your event event!!!"
+        )
 
 
 module.exports = CreateEventPage

@@ -10,6 +10,11 @@ WelcomePage = React.createClass
         user: React.PropTypes.object
 
     render: ->
+        create_link_url = if @props.user
+            "/create_event"
+        else
+            "/auth/google?r=/create_event"
+
         PageBase({user: @props.user},
             (div {className: "row"},
                 (div {className: "col-md-12"},
@@ -23,10 +28,7 @@ WelcomePage = React.createClass
             (div {className: "row"},
                 (div {className: "col-md-12 text-center"},
                     (a
-                        href: if @props.user
-                                "/create_event"
-                            else
-                                "/auth/google?r=/create_event"
+                        href: create_link_url
                         className: "btn btn-success btn-lg"
                         style: {"margin-top": "5%"}
                         "Create"

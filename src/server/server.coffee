@@ -39,6 +39,7 @@ app.get '/', (req, res) ->
 
 app.get(
     '/create_event',
+    is_logged_in,
     (req, res) ->
         reactRender(
             res
