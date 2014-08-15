@@ -39,7 +39,7 @@ app.get '/', (req, res) ->
 
 app.get(
     '/create_event',
-    is_logged_in,
+    # is_logged_in,
     (req, res) ->
         reactRender(
             res
@@ -68,4 +68,4 @@ app.get(
 )
 
 
-server = app.listen(3000, -> console.log 'Listening port 3001')
+server = app.listen(3000, -> console.log 'Listening port 3000')

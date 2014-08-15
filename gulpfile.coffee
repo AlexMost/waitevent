@@ -5,10 +5,12 @@ coffeelint = require 'gulp-coffeelint'
 nodeunit = require  'gulp-nodeunit'
 nodemon = require 'gulp-nodemon'
 browserify = require 'gulp-browserify'
+react = require 'gulp-react'
 
 SRC_SERVER_PATH = './src/**/*.coffee'
 SRC_CLIENT_PATH = ['./src/client/**/*.coffee',
                    './src/components/**/*.coffee']
+SRC_JSX_PATH = './src/**/*.jsx'
 SRC_EJS_PATH = './src/server/**/*.ejs'
 SRC_TEST_PATH = './test/**/*.coffee'
 TEST_PATH = './testbuild/**/*.js'
@@ -35,11 +37,6 @@ gulp.task 'ejs', ->
     gulp.src(SRC_EJS_PATH).pipe(gulp.dest('./build/server/'))
 
 
-gulp.task 'test', ['testbuild'], ->
-    gulp.src(TEST_PATH)
-        .pipe(nodeunit({reporter: "default"}))
-
-
 gulp.task 'buildall', ['default', 'ejs', 'csbuild']
 
 
@@ -62,7 +59,13 @@ gulp.task 'create_event_page_build', ["default"], ->
         .pipe(browserify())
         .pipe(gulp.dest('./build/server/public/js'))
 
+gulp.task 'jsx', ->
+    gulp.src(SRC_JSX_PATH)
+        .pipe(react())
+        .pipe(gulp.dest('./build'))
+
 gulp.task 'csbuild', [
+    'jsx'
     'welcome_page_build'
     'create_event_page_build'
 ]
@@ -70,11 +73,3 @@ gulp.task 'csbuild', [
 # ============= Watchers =============
 gulp.task 'watch', ['buildall'], ->
     gulp.watch SRC_SERVER_PATH, ['buildall']
-
-
-gulp.task 'watch_client', ->
-    gulp.watch SRC_CLIENT_PATH, ['csbuild']
-
-
-gulp.task 'watch_test', ->
-    gulp.watch SRC_TEST_PATH, ['test']
