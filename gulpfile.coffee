@@ -72,4 +72,4 @@ gulp.task 'csbuild', [
 
 # ============= Watchers =============
 gulp.task 'watch', ['buildall'], ->
-    gulp.watch SRC_SERVER_PATH, ['buildall']
+    gulp.watch [SRC_SERVER_PATH, SRC_JSX_PATH], ['buildall']

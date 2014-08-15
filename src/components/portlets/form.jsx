@@ -1,14 +1,6 @@
 /** @jsx React.DOM */
 var React = require('react');
 
-exports.HorizontalForm = function(components) {
-	return (
-		<form className="form-horizontal" role="form">
-			{components}
-		</form>
-	)
-}
-
 exports.HorizontalFormInputText = function(args) {
 	return (
   		<div className="form-group" key={args.key} >
@@ -23,6 +15,7 @@ exports.HorizontalFormInputText = function(args) {
   		</div>
 	)
 }
+
 
 exports.HorizontalFormTextArea = function(args) {
 	return (

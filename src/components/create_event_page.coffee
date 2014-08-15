@@ -24,7 +24,9 @@ CreateEventPage = React.createClass
                     label: "Description"
                     placeholder: "Enter some event description"
 
-            script {type: "text/javascript", dangerouslySetInnerHTML: {__html: "console.log('hello...')"}}
+            script
+                type: "text/javascript"
+                dangerouslySetInnerHTML: {__html: "console.log('hello...')"}
 
 
 module.exports = CreateEventPage
