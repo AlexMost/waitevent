@@ -42,9 +42,9 @@ CreateEventPage = React.createClass
                 DateTimePicker
                     key: "datetimepicker"
                     label: "Date time"
-                    name: "datetime"
-                    value: @props.formData.datetime
-                    error: @props.errors.datetime?.msg
+                    name: "deadline"
+                    value: @props.formData.deadline
+                    error: @props.errors.deadline?.msg
                     placeholder: "Select event date time"
 
                 HorizontalFormSubmit

@@ -1,9 +1,13 @@
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
+ObjectId = Schema.ObjectId
 
 eventSchema = Schema
     title: String
-    _userId: {type: Number, ref: "User"}
+    description: String
+    createdAt: {type: Date, default: Date.now}
+    deadLine: {type: Date}
+    userId: {type: ObjectId, ref: "User"}
 
 UserEvent = mongoose.model("UserEvent", eventSchema)
 

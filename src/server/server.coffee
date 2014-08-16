@@ -13,6 +13,7 @@ WelcomePage = require '../components/welcome_page'
 CreateEventPage = require '../components/create_event_page'
 {reactRender} = require './react_render'
 {get_config} = require './config'
+UserEvent = require './models/userEvent'
 config = get_config()
 
 
@@ -51,6 +52,15 @@ app.get '/', (req, res) ->
 
 
 app.get(
+    "/event/:eventId"
+    is_logged_in
+    (req, res) ->
+        UserEvent.findOne {_id: req.params.eventId}, (err, event) ->
+            res.json(event)
+)
+
+
+app.get(
     '/create_event',
     is_logged_in,
     (req, res) ->
@@ -66,21 +76,35 @@ app.post(
     '/create_event',
     is_logged_in,
     (req, res) ->
+
         req.checkBody('title', "Title param is required").notEmpty()
         req.checkBody(
-            'datetime',
+            'deadline',
             "Select events date and time").isDate()
+        errors = req.validationErrors(true)
 
-        reactRender(
-            res
-            CreateEventPage
-            {
-                user: req.user
-                errors: req.validationErrors(true) or {}
-                formData: req.body
-            }
-            {initScript: '/js/create_event_page.js'}
-        )
+        if errors
+            reactRender(
+                res
+                CreateEventPage
+                {
+                    user: req.user
+                    errors: errors or {}
+                    formData: req.body
+                }
+                {initScript: '/js/create_event_page.js'}
+            )
+        else
+            newEvent = new UserEvent(
+                title: req.body.title
+                description: req.body.description
+                deadLine: req.body.deadline
+                userId: req.user._id
+            )
+
+            newEvent.save (err, event) ->
+                # TODO: handle error
+                res.redirect "/event/#{event._id}"
 )
 
 
