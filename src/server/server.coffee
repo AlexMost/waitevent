@@ -20,7 +20,8 @@ app.set 'views', __dirname
 app.set 'view engine', 'ejs'
 app.use express.static(path.resolve __dirname, '../../public')
 app.use cookieParser()
-app.use bodyParser()
+app.use bodyParser.json()
+app.use bodyParser.urlencoded()
 
 
 app.use session
@@ -51,6 +52,19 @@ app.get(
     '/create_event',
     is_logged_in,
     (req, res) ->
+        reactRender(
+            res
+            CreateEventPage
+            {user: req.user}
+            {initScript: '/js/create_event_page.js'}
+        )
+)
+
+app.post(
+    '/create_event',
+    is_logged_in,
+    (req, res) ->
+        console.log req.body
         reactRender(
             res
             CreateEventPage

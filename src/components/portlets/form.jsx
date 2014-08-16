@@ -10,7 +10,8 @@ exports.HorizontalFormInputText = function(args) {
       		<input
       			id={args.key + "id"}
       			type={args.type || 'text'} 
-      			className="form-control" 
+      			className="form-control"
+                name={args.name}
       			placeholder={args.placeholder}/>
     		</div>
   		</div>
@@ -27,6 +28,7 @@ exports.HorizontalFormTextArea = function(args) {
 					id={args.key + "id"}
 					className="form-control" 
 					placeholder={args.placeholder}
+                    name={args.name}
 					rows="3">
 					{args.text}
 				</textarea>

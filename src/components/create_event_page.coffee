@@ -20,16 +20,19 @@ CreateEventPage = React.createClass
                 HorizontalFormInputText
                     key: "titleinput"
                     label: "Title"
+                    name: "title"
                     placeholder: "Enter your event title"
 
                 HorizontalFormTextArea
                     key: "description"
                     label: "Description"
+                    name: "description"
                     placeholder: "Enter some event description"
 
                 DateTimePicker
                     key: "datetimepicker"
                     label: "Date time"
+                    name: "datetime"
                     placeholder: "Select event date time"
 
                 HorizontalFormSubmit

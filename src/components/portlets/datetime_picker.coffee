@@ -15,6 +15,7 @@ exports.DateTimePicker = (args) ->
                 <div class="input-group date" id="datetimepicker1">
                     <input id="#{args.key + "_id"}"
                            type="text"
+                           name="#{args.name}"
                            placeholder="#{args.placeholder or ''}"
                            class="form-control" />
                     <span class="input-group-addon">
