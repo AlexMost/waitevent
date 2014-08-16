@@ -1,4 +1,5 @@
 path = require 'path'
+
 express = require 'express'
 passport = require 'passport'
 cookieParser = require 'cookie-parser'
@@ -9,10 +10,11 @@ expressValidator = require 'express-validator'
 
 {init_db} = require './db'
 {init_auth, is_logged_in} = require './auth'
-WelcomePage = require '../components/welcome_page'
-CreateEventPage = require '../components/create_event_page'
-{reactRender} = require './react_render'
 {get_config} = require './config'
+
+{create_event_post, create_event_get} = require './handlers/create_event'
+{welcome_page_get} = require './handlers/welcome_page'
+
 UserEvent = require './models/userEvent'
 config = get_config()
 
@@ -42,71 +44,17 @@ init_db config.db_path
 init_auth()
 
 
-app.get '/', (req, res) ->
-    reactRender(
-        res
-        WelcomePage
-        {user: req.user}
-        {initScript: '/js/welcome_page.js'}
-    )
-
+app.get '/', welcome_page_get
 
 app.get(
     "/event/:eventId"
-    is_logged_in
     (req, res) ->
         UserEvent.findOne {_id: req.params.eventId}, (err, event) ->
             res.json(event)
 )
 
-
-app.get(
-    '/create_event',
-    is_logged_in,
-    (req, res) ->
-        reactRender(
-            res
-            CreateEventPage
-            {user: req.user}
-            {initScript: '/js/create_event_page.js'}
-        )
-)
-
-app.post(
-    '/create_event',
-    is_logged_in,
-    (req, res) ->
-
-        req.checkBody('title', "Title param is required").notEmpty()
-        req.checkBody(
-            'deadline',
-            "Select events date and time").isDate()
-        errors = req.validationErrors(true)
-
-        if errors
-            reactRender(
-                res
-                CreateEventPage
-                {
-                    user: req.user
-                    errors: errors or {}
-                    formData: req.body
-                }
-                {initScript: '/js/create_event_page.js'}
-            )
-        else
-            newEvent = new UserEvent(
-                title: req.body.title
-                description: req.body.description
-                deadLine: req.body.deadline
-                userId: req.user._id
-            )
-
-            newEvent.save (err, event) ->
-                # TODO: handle error
-                res.redirect "/event/#{event._id}"
-)
-
+app.get '/create_event', is_logged_in, create_event_get
+app.post '/create_event', is_logged_in, create_event_post
 
 app.get('/auth/google',
     (req, res, next) ->
