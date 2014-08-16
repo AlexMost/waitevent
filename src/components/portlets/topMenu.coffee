@@ -10,12 +10,14 @@ TopMenu = React.createClass
 
     renderAuth: ->
         (ul {className:"list-inline"},
+            ((li null, (a {href: "/"}, "Home")))
             (li null, (a {href: "/my-events"}, "My events"))
             (li null, (a {href: "/watch-events"}, "Watching"))
         )
 
     renderUnAuth: ->
         (ul {className:"list-inline"},
+            ((li null, (a {href: "/"}, "Home")))
             (li null, (a {href: "/auth/google"}, "Authorize"))
         )
 
