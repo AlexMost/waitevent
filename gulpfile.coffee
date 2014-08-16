@@ -65,6 +65,12 @@ gulp.task 'create_event_page_build', ["default"], ->
         .pipe(gulp.dest('./public/js'))
 
 
+gulp.task 'event_view_page_build', ["default"], ->
+    gulp.src('./build/client/event_view_page.js', {read: false})
+        .pipe(browserify())
+        .pipe(gulp.dest('./public/js'))
+
+
 gulp.task 'jsx', ->
     gulp.src(SRC_JSX_PATH)
         .pipe(react())
@@ -74,6 +80,7 @@ gulp.task 'csbuild', [
     'jsx'
     'welcome_page_build'
     'create_event_page_build'
+    'event_view_page_build'
 ]
 # ============= common libs ==========================
 COMMON_JS_LIBS = [
