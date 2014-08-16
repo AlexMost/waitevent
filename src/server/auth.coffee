@@ -10,10 +10,10 @@ init_auth = ->
             returnURL: 'http://localhost:3000/auth/google/return',
             realm: 'http://localhost:3000'
             (googleid, googleProfile, done) ->
-                User.find {googleid}, (err, users) ->
+                User.findOne {googleid}, (err, user) ->
                     return done err if err
-                    if users.length
-                        done null, users[0]
+                    if user
+                        done null, user
                     else
                         newUser = new User {googleid, googleProfile}
                         newUser.save (err, user) ->
@@ -27,8 +27,7 @@ init_auth = ->
 
 
     passport.deserializeUser (id, done) ->
-        User.find {_id: id}, (err, users) ->
-            done err, users[0]
+        User.findOne {_id: id}, done
 
 
 is_logged_in = (req, res, next) ->
