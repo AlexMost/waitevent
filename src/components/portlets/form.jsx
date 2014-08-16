@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 var React = require('react');
 
+
 exports.HorizontalFormInputText = function(args) {
 	return (
   		<div className="form-group" key={args.key} >
@@ -33,3 +34,16 @@ exports.HorizontalFormTextArea = function(args) {
 		</div>
 	)
 }
+
+
+exports.HorizontalFormSubmit = function(args) {
+	return (
+		<div className="form-group" key={args.key}>
+    		<div className="col-sm-offset-2 col-sm-10">
+      			<button type="submit" className="btn btn-primary">{args.text}</button>
+    		</div>
+  		</div>
+	)
+}
+
+

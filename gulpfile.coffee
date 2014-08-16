@@ -39,6 +39,8 @@ gulp.task 'ejs', ->
 
 
 gulp.task 'build', ['default', 'ejs', 'csbuild']
+
+
 gulp.task 'buildall', ['build', 'common']
 
 
@@ -93,16 +95,14 @@ gulp.task 'common-js', ->
         .pipe(concat('common.js'))
         .pipe(gulp.dest('./public/js/'))
 
+
 gulp.task 'common-css', ->
     gulp.src(COMMON_CSS)
         .pipe(concat('common.css'))
         .pipe(gulp.dest('./public/css/'))
 
 
-gulp.task 'common', [
-    'common-js'
-    'common-css'
-]
+gulp.task 'common', ['common-js', 'common-css']
 
 
 # ============= Watchers =============

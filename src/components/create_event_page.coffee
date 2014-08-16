@@ -1,9 +1,9 @@
 React = require 'react'
 {div, h1, a, form, script} = React.DOM
 PageBase = require './portlets/base'
-{HorizontalFormInputText, HorizontalFormTextArea} = require './portlets/form'
+{HorizontalFormInputText, HorizontalFormTextArea,
+HorizontalFormSubmit} = require './portlets/form'
 {DateTimePicker} = require './portlets/datetime_picker'
-
 
 
 CreateEventPage = React.createClass
@@ -13,12 +13,10 @@ CreateEventPage = React.createClass
         user: React.PropTypes.object
 
     render: ->
-        # datetimePicker = React.renderComponentToString DateTimePicker()
-
         PageBase {user: @props.user},
             h1 {className: "text-center"}, "Enter some event data:"
 
-            form {className: "form-horizontal", role: "form"},
+            form {className: "form-horizontal", role: "form", method: "POST"},
                 HorizontalFormInputText
                     key: "titleinput"
                     label: "Title"
@@ -32,7 +30,11 @@ CreateEventPage = React.createClass
                 DateTimePicker
                     key: "datetimepicker"
                     label: "Date time"
-                    placeholder: "select event date time"
+                    placeholder: "Select event date time"
+
+                HorizontalFormSubmit
+                    key: "submitbtn"
+                    text: "Create event!"
 
 
 module.exports = CreateEventPage
