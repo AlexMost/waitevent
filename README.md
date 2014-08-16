@@ -12,6 +12,5 @@ Development info
 3. npm install .
 4. bower install .
 5. gulp dev
-6. gulp watch (for continious sources update)
 
 
