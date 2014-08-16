@@ -15,7 +15,7 @@ CreateEventPage = require '../components/create_event_page'
 app = express()
 app.set 'views', __dirname
 app.set 'view engine', 'ejs'
-app.use express.static(path.join __dirname, 'public')
+app.use express.static(path.resolve __dirname, '../../public')
 app.use cookieParser()
 app.use bodyParser()
 app.use session {secret: "session secret"}

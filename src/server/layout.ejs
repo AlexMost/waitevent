@@ -2,15 +2,22 @@
 <html>
   <head>
     <title>WaitEvent create and share your event timers</title>
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/common.css">
   </head>
   <body>
+    <script type="text/javascript">
+      var queue = [];
+    </script>
     <div id="react-main-mount">
       <%- reactOutput %>
     </div>
     <script type="text/plain" id="componentData">
       <%- componentData %>
     </script>
+    <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript" src="<%- initScript %>"></script>
+    <script type="text/javascript">
+       window.queue.map(function(f){ f();})
+    </script>
   </body>
 </html>

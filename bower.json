@@ -1,0 +1,20 @@
+{
+  "name": "waitevent",
+  "version": "0.0.0",
+  "homepage": "https://github.com/AlexMost/waitevent",
+  "authors": [
+    "AlexMost <alexmost1989@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "eonasdan-bootstrap-datetimepicker": "~3.1.1"
+  }
+}

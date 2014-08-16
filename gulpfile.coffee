@@ -6,6 +6,7 @@ nodeunit = require  'gulp-nodeunit'
 nodemon = require 'gulp-nodemon'
 browserify = require 'gulp-browserify'
 react = require 'gulp-react'
+concat = require 'gulp-concat'
 
 SRC_SERVER_PATH = './src/**/*.coffee'
 SRC_CLIENT_PATH = ['./src/client/**/*.coffee',
@@ -37,7 +38,8 @@ gulp.task 'ejs', ->
     gulp.src(SRC_EJS_PATH).pipe(gulp.dest('./build/server/'))
 
 
-gulp.task 'buildall', ['default', 'ejs', 'csbuild']
+gulp.task 'build', ['default', 'ejs', 'csbuild']
+gulp.task 'buildall', ['build', 'common']
 
 
 gulp.task 'dev', ['watch'], ->
@@ -52,12 +54,14 @@ gulp.task 'dev', ['watch'], ->
 gulp.task 'welcome_page_build', ["default"], ->
     gulp.src('./build/client/welcome_page.js', {read: false})
         .pipe(browserify())
-        .pipe(gulp.dest('./build/server/public/js'))
+        .pipe(gulp.dest('./public/js'))
+
 
 gulp.task 'create_event_page_build', ["default"], ->
     gulp.src('./build/client/create_event_page.js', {read: false})
         .pipe(browserify())
-        .pipe(gulp.dest('./build/server/public/js'))
+        .pipe(gulp.dest('./public/js'))
+
 
 gulp.task 'jsx', ->
     gulp.src(SRC_JSX_PATH)
@@ -69,7 +73,38 @@ gulp.task 'csbuild', [
     'welcome_page_build'
     'create_event_page_build'
 ]
+# ============= common libs ==========================
+COMMON_JS_LIBS = [
+    "./bower_components/jquery/dist/jquery.js"
+    "./bower_components/moment/moment.js"
+    "./bower_components/bootstrap/dist/js/bootstrap.js"
+    "./bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"
+]
+
+
+COMMON_CSS = [
+    "./bower_components/bootstrap/dist/css/bootstrap.css"
+    "./bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css"
+]
+
+
+gulp.task 'common-js', ->
+    gulp.src(COMMON_JS_LIBS)
+        .pipe(concat('common.js'))
+        .pipe(gulp.dest('./public/js/'))
+
+gulp.task 'common-css', ->
+    gulp.src(COMMON_CSS)
+        .pipe(concat('common.css'))
+        .pipe(gulp.dest('./public/css/'))
+
+
+gulp.task 'common', [
+    'common-js'
+    'common-css'
+]
+
 
 # ============= Watchers =============
-gulp.task 'watch', ['buildall'], ->
-    gulp.watch [SRC_SERVER_PATH, SRC_JSX_PATH], ['buildall']
+gulp.task 'watch', ['build'], ->
+    gulp.watch [SRC_SERVER_PATH, SRC_JSX_PATH], ['build']
