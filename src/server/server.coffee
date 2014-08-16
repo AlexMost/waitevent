@@ -5,6 +5,7 @@ cookieParser = require 'cookie-parser'
 bodyParser = require 'body-parser'
 session = require 'express-session'
 RedisStore = (require 'connect-redis')(session)
+expressValidator = require 'express-validator'
 
 {init_db} = require './db'
 {init_auth, is_logged_in} = require './auth'
@@ -22,6 +23,7 @@ app.use express.static(path.resolve __dirname, '../../public')
 app.use cookieParser()
 app.use bodyParser.json()
 app.use bodyParser.urlencoded()
+app.use expressValidator()
 
 
 app.use session
@@ -64,11 +66,19 @@ app.post(
     '/create_event',
     is_logged_in,
     (req, res) ->
-        console.log req.body
+        req.checkBody('title', "Title param is required").notEmpty()
+        req.checkBody(
+            'datetime',
+            "Select events date and time").isDate()
+
         reactRender(
             res
             CreateEventPage
-            {user: req.user}
+            {
+                user: req.user
+                errors: req.validationErrors(true) or {}
+                formData: req.body
+            }
             {initScript: '/js/create_event_page.js'}
         )
 )

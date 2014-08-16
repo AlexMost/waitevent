@@ -3,8 +3,13 @@ var React = require('react');
 
 
 exports.HorizontalFormInputText = function(args) {
+    var groupCls = "form-group";
+    if (args.error) {
+        groupCls += " has-error"
+    }
+
 	return (
-  		<div className="form-group" key={args.key} >
+  		<div className={groupCls} key={args.key} >
     		<label htmlFor={args.key + "id"} className="col-sm-2 control-label">{args.label}</label>
     		<div className="col-sm-10">
       		<input
@@ -12,16 +17,23 @@ exports.HorizontalFormInputText = function(args) {
       			type={args.type || 'text'} 
       			className="form-control"
                 name={args.name}
+                defaultValue={args.value || ""}
       			placeholder={args.placeholder}/>
+                <span className="help-block text-right">{args.error || ""}</span>
     		</div>
   		</div>
 	)
-}
+};
 
 
 exports.HorizontalFormTextArea = function(args) {
+    var groupCls = "form-group";
+    if (args.error) {
+        groupCls += " has-error"
+    }
+
 	return (
-		<div className="form-group" key={args.key} >
+		<div className={groupCls} key={args.key} >
     		<label htmlFor={args.key + "_id"} className="col-sm-2 control-label">{args.label}</label>
     		<div className="col-sm-10">
 				<textarea
@@ -29,13 +41,15 @@ exports.HorizontalFormTextArea = function(args) {
 					className="form-control" 
 					placeholder={args.placeholder}
                     name={args.name}
-					rows="3">
-					{args.text}
+					rows="3"
+                    defaultValue={args.value || ""}
+                    >
 				</textarea>
+                <span className="help-block text-right">{args.error || ""}</span>
 			</div>
 		</div>
 	)
-}
+};
 
 
 exports.HorizontalFormSubmit = function(args) {
@@ -46,6 +60,6 @@ exports.HorizontalFormSubmit = function(args) {
     		</div>
   		</div>
 	)
-}
+};
 
 

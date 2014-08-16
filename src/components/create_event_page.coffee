@@ -11,6 +11,12 @@ CreateEventPage = React.createClass
 
     propTypes:
         user: React.PropTypes.object
+        errors: React.PropTypes.object
+        formData: React.PropTypes.object
+
+    getDefaultProps: ->
+        errors: {}
+        formData: {}
 
     render: ->
         PageBase {user: @props.user},
@@ -21,18 +27,24 @@ CreateEventPage = React.createClass
                     key: "titleinput"
                     label: "Title"
                     name: "title"
+                    value: @props.formData.title
+                    error: @props.errors.title?.msg
                     placeholder: "Enter your event title"
 
                 HorizontalFormTextArea
                     key: "description"
                     label: "Description"
                     name: "description"
+                    value: @props.formData.description
+                    error: @props.errors.description?.msg
                     placeholder: "Enter some event description"
 
                 DateTimePicker
                     key: "datetimepicker"
                     label: "Date time"
                     name: "datetime"
+                    value: @props.formData.datetime
+                    error: @props.errors.datetime?.msg
                     placeholder: "Select event date time"
 
                 HorizontalFormSubmit
