@@ -1,7 +1,8 @@
 React = require 'react'
-{div, h1, p} = React.DOM
+{div, h1, p, ul, li, span, a} = React.DOM
 PageBase = require './portlets/base'
 CountDown = require './portlets/countdown'
+FlipClock = require './portlets/flipclock'
 
 
 EventViewPage = React.createClass
@@ -14,10 +15,15 @@ EventViewPage = React.createClass
         PageBase {user: @props.user},
             h1 {className: "text-center"},
                 @props.event.title
-            new CountDown
-                target_date: new Date(@props.event.deadLine).getTime()
+            div {className: "well row text-center"},
+                div {className: "col-md-2"}
+                div {className: "col-md-8"},
+                    FlipClock
+                        target_date: @props.event.deadLine
+                div {className: "col-md-2"}
             div {className: "text-center"},
                 p {}, @props.event.description
+
 
 
 

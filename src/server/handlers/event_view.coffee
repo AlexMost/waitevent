@@ -11,8 +11,5 @@ exports.event_view_get = (req, res) ->
             res
             EventViewPage
             {user: req.user, event}
-            {
-                initScript: '/js/event_view_page.js'
-                css: '/css/event_view.css'
-            }
+            {initScript: '/js/event_view_page.js'}
         )

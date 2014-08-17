@@ -95,12 +95,14 @@ COMMON_JS_LIBS = [
     "./bower_components/moment/moment.js"
     "./bower_components/bootstrap/dist/js/bootstrap.js"
     "./bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"
+    "./thirdparty/flipclock/flipclock.js"
 ]
 
 
 COMMON_CSS = [
     "./bower_components/bootstrap/dist/css/bootstrap.css"
     "./bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css"
+    "./thirdparty/flipclock/flipclock.css"
 ]
 
 
