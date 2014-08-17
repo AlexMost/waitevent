@@ -87,12 +87,11 @@ gulp.task 'csbuild', [
 ]
 # ============= common libs ==========================
 COMMON_JS_LIBS = [
-    "./bower_components/jquery/dist/jquery.js"
     "./bower_components/react/react-with-addons.js"
+    "./bower_components/jquery/dist/jquery.js"
     "./bower_components/moment/moment.js"
     "./bower_components/bootstrap/dist/js/bootstrap.js"
     "./bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"
-    "./bower_components/jquery.countdown/dist/jquery.countdown.js"
 ]
 
 

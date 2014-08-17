@@ -1,6 +1,7 @@
 React = require 'react'
 {div, h1, a, form, script} = React.DOM
 PageBase = require './portlets/base'
+CountDown = require './portlets/countdown'
 
 
 EventViewPage = React.createClass
@@ -16,6 +17,7 @@ EventViewPage = React.createClass
             div {}, "created #{@props.event.createdAt}"
             div {}, @props.event.description
             div {}, @props.event.deadLine
+            (new CountDown)
 
 
 module.exports = EventViewPage
