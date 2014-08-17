@@ -24,7 +24,8 @@
     "gulp-concat": "^2.3.4",
     "gulp-nodemon": "^1.0.4",
     "gulp-nodeunit": "0.0.5",
-    "gulp-util": "^3.0.0"
+    "gulp-util": "^3.0.0",
+    "literalify": "^0.3.0"
   },
   "dependencies": {
     "body-parser": "^1.6.3",

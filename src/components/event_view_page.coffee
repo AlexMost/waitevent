@@ -11,7 +11,8 @@ EventViewPage = React.createClass
 
     render: ->
         PageBase {user: @props.user},
-            h1 {}, @props.event.title
+            h1 {className: "text-center"},
+                @props.event.title
             div {}, "created #{@props.event.createdAt}"
             div {}, @props.event.description
             div {}, @props.event.deadLine

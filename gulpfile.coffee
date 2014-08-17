@@ -7,6 +7,7 @@ nodemon = require 'gulp-nodemon'
 browserify = require 'gulp-browserify'
 react = require 'gulp-react'
 concat = require 'gulp-concat'
+literalify = require 'literalify'
 
 SRC_SERVER_PATH = './src/**/*.coffee'
 SRC_CLIENT_PATH = ['./src/client/**/*.coffee',
@@ -53,21 +54,24 @@ gulp.task 'dev', ['watch'], ->
 
 
 # ============= client-side build tasks =============
+browserify_common_config =
+    transform: literalify.configure({react: "window.React"})
+
 gulp.task 'welcome_page_build', ["default"], ->
     gulp.src('./build/client/welcome_page.js', {read: false})
-        .pipe(browserify())
+        .pipe(browserify(browserify_common_config))
         .pipe(gulp.dest('./public/js'))
 
 
 gulp.task 'create_event_page_build', ["default"], ->
     gulp.src('./build/client/create_event_page.js', {read: false})
-        .pipe(browserify())
+        .pipe(browserify(browserify_common_config))
         .pipe(gulp.dest('./public/js'))
 
 
 gulp.task 'event_view_page_build', ["default"], ->
     gulp.src('./build/client/event_view_page.js', {read: false})
-        .pipe(browserify())
+        .pipe(browserify(browserify_common_config))
         .pipe(gulp.dest('./public/js'))
 
 
@@ -85,9 +89,11 @@ gulp.task 'csbuild', [
 # ============= common libs ==========================
 COMMON_JS_LIBS = [
     "./bower_components/jquery/dist/jquery.js"
+    "./bower_components/react/react-with-addons.js"
     "./bower_components/moment/moment.js"
     "./bower_components/bootstrap/dist/js/bootstrap.js"
     "./bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"
+    "./bower_components/jquery.countdown/dist/jquery.countdown.js"
 ]
 
 
