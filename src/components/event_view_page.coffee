@@ -13,9 +13,16 @@ EventViewPage = React.createClass
 
     render: ->
         PageBase {user: @props.user},
-            h1 {className: "text-center"},
+            h1
+                className: "text-center"
+                style:
+                    "margin-bottom": "5%"
+                    "margin-top": "5%"
                 @props.event.title
-            div {className: "well row text-center"},
+            div
+                className: "well row text-center"
+                style: {"margin-bottom": "5%"}
+
                 div {className: "col-md-2"}
                 div {className: "col-md-8"},
                     FlipClock

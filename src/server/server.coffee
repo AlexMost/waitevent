@@ -15,6 +15,7 @@ expressValidator = require 'express-validator'
 {create_event_post, create_event_get} = require './handlers/create_event'
 {welcome_page_get} = require './handlers/welcome_page'
 {event_view_get} = require './handlers/event_view'
+{my_events_get} = require './handlers/my_events'
 
 UserEvent = require './models/userEvent'
 config = get_config()
@@ -23,6 +24,7 @@ app = express()
 app.set 'views', __dirname
 app.set 'view engine', 'ejs'
 app.use express.static(path.resolve __dirname, '../../public')
+app.use express.static(path.resolve __dirname, '../../image')
 app.use cookieParser()
 app.use bodyParser.json()
 app.use bodyParser.urlencoded()
@@ -42,10 +44,12 @@ init_auth()
 
 app.get '/', welcome_page_get
 
-app.get "/event/:eventId",  event_view_get
+app.get '/event/:eventId',  event_view_get
 
 app.get '/create_event', is_logged_in, create_event_get
 app.post '/create_event', is_logged_in, create_event_post
+
+app.get '/my_events', is_logged_in, my_events_get
 
 app.get('/auth/google',
     (req, res, next) ->

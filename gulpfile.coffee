@@ -99,34 +99,42 @@ COMMON_JS_LIBS = [
 ]
 
 
-COMMON_CSS = [
-    "./bower_components/bootstrap/dist/css/bootstrap.css"
-    "./bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css"
-    "./thirdparty/flipclock/flipclock.css"
-]
-
-
 gulp.task 'common-js', ->
     gulp.src(COMMON_JS_LIBS)
         .pipe(concat('common.js'))
         .pipe(gulp.dest('./public/js/'))
 
 
-gulp.task 'common-css', ->
+# ============= Styles =============
+COMMON_CSS = [
+    "./bower_components/bootstrap/dist/css/bootstrap.css"
+    "./bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css"
+    "./thirdparty/flipclock/flipclock.css"
+    "./build/css/common.css"
+]
+
+
+COMMON_CSS_BUILD = [
+    "./styles/common.styl"
+]
+
+gulp.task 'build-common-css', ->
+    gulp.src(COMMON_CSS_BUILD)
+        .pipe(stylus())
+        .pipe(gulp.dest("./build/css"))
+
+gulp.task 'common-css', ['build-common-css'], ->
     gulp.src(COMMON_CSS)
         .pipe(concat('common.css'))
         .pipe(gulp.dest('./public/css/'))
 
-
-gulp.task 'common', ['common-js', 'common-css']
-
-# ============= Styles =============
 gulp.task 'styles', ->
     gulp.src(SRC_STYLYS_PATH)
         .pipe(stylus())
         .pipe(gulp.dest('./public/css/'))
 
 
+gulp.task 'common', ['common-js', 'common-css']
 # ============= Watchers =============
 gulp.task 'watch', ['build'], ->
     gulp.watch [SRC_SERVER_PATH, SRC_JSX_PATH, SRC_EJS_PATH], ['build']

@@ -12,14 +12,15 @@ TopMenu = React.createClass
         (div {className: "text-right"},
             (ul {className:"list-inline"},
                 ((li null, (a {href: "/"}, "Home")))
-                (li null, (a {href: "/my-events"}, "My events"))
-                (li null, (a {href: "/watch-events"}, "Watching"))
+                (li null, (a {href: "/my_events"}, "My events"))
+                (li null, (a {href: "/watch_events"}, "Watching"))
             )
             (a {href: "/create_event"}, "Create new event")
         )
 
     renderUnAuth: ->
-        (a {href: "/create_event"}, "Create new event")
+        (div {className: "text-right"},
+            (a {href: "/create_event"}, "Create new event"))
 
     render: ->
         if @props.user

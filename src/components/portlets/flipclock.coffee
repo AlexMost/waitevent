@@ -16,7 +16,9 @@ FlipClock = (args) ->
                             var futureDate  = new Date("#{args.target_date}");
                             var diff = (futureDate.getTime() / 1000 -
                                         currentDate.getTime() / 1000);
-
+                            if (diff < 0){
+                                diff = 0;
+                            }
                             clock = $('.clock').FlipClock(diff, {
                                 clockFace: 'DailyCounter',
                                 countdown: true
