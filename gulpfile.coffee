@@ -7,6 +7,7 @@ browserify = require 'gulp-browserify'
 react = require 'gulp-react'
 concat = require 'gulp-concat'
 literalify = require 'literalify'
+stylus = require 'gulp-stylus'
 
 SRC_SERVER_PATH = './src/**/*.coffee'
 SRC_CLIENT_PATH = ['./src/client/**/*.coffee',
@@ -15,6 +16,7 @@ SRC_JSX_PATH = './src/**/*.jsx'
 SRC_EJS_PATH = './src/server/**/*.ejs'
 SRC_TEST_PATH = './test/**/*.coffee'
 TEST_PATH = './testbuild/**/*.js'
+SRC_STYLYS_PATH = './styles/**/*.styl'
 
 
 # ============= Server side tasks =============
@@ -80,6 +82,7 @@ gulp.task 'jsx', ->
         .pipe(gulp.dest('./build'))
 
 gulp.task 'csbuild', [
+    'styles'
     'jsx'
     'welcome_page_build'
     'create_event_page_build'
@@ -115,7 +118,14 @@ gulp.task 'common-css', ->
 
 gulp.task 'common', ['common-js', 'common-css']
 
+# ============= Styles =============
+gulp.task 'styles', ->
+    gulp.src(SRC_STYLYS_PATH)
+        .pipe(stylus())
+        .pipe(gulp.dest('./public/css/'))
+
 
 # ============= Watchers =============
 gulp.task 'watch', ['build'], ->
-    gulp.watch [SRC_SERVER_PATH, SRC_JSX_PATH], ['build']
+    gulp.watch [SRC_SERVER_PATH, SRC_JSX_PATH, SRC_EJS_PATH], ['build']
+    gulp.watch SRC_STYLYS_PATH, ['styles']

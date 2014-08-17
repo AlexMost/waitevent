@@ -3,6 +3,9 @@
   <head>
     <title>WaitEvent create and share your event timers</title>
     <link rel="stylesheet" href="/css/common.css">
+    <% if(locals.css) { %>
+        <link rel="stylesheet" href="<%- locals.css %>">
+    <% } %>
   </head>
   <body>
     <script type="text/javascript">
@@ -15,7 +18,9 @@
       <%- componentData %>
     </script>
     <script type="text/javascript" src="/js/common.js"></script>
-    <script type="text/javascript" src="<%- initScript %>"></script>
+    <% if(locals.initScript) { %>
+        <script type="text/javascript" src="<%- initScript %>"></script>
+    <% } %>
     <script type="text/javascript">
        window.queue.map(function(f){ f();})
     </script>
