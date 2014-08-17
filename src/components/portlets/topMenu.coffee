@@ -9,17 +9,17 @@ TopMenu = React.createClass
         user: React.PropTypes.object
 
     renderAuth: ->
-        (ul {className:"list-inline"},
-            ((li null, (a {href: "/"}, "Home")))
-            (li null, (a {href: "/my-events"}, "My events"))
-            (li null, (a {href: "/watch-events"}, "Watching"))
+        (div {className: "text-right"},
+            (ul {className:"list-inline"},
+                ((li null, (a {href: "/"}, "Home")))
+                (li null, (a {href: "/my-events"}, "My events"))
+                (li null, (a {href: "/watch-events"}, "Watching"))
+            )
+            (a {href: "/create_event"}, "Create new event")
         )
 
     renderUnAuth: ->
-        (ul {className:"list-inline"},
-            ((li null, (a {href: "/"}, "Home")))
-            (li null, (a {href: "/auth/google"}, "Authorize"))
-        )
+        (a {href: "/create_event"}, "Create new event")
 
     render: ->
         if @props.user

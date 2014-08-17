@@ -21,7 +21,7 @@ WelcomePage = React.createClass
                     (h1
                         className: "text-center"
                         style: {"margin-top": "20%"}
-                        "Create timer for some event:"
+                        "Create countdown for some event:"
                     )
                 )
             )
