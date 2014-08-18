@@ -16,7 +16,6 @@ SRC_JSX_PATH = './src/**/*.jsx'
 SRC_EJS_PATH = './src/server/**/*.ejs'
 SRC_TEST_PATH = './test/**/*.coffee'
 TEST_PATH = './testbuild/**/*.js'
-SRC_STYLYS_PATH = './styles/**/*.styl'
 
 
 # ============= Server side tasks =============
@@ -82,7 +81,6 @@ gulp.task 'jsx', ->
         .pipe(gulp.dest('./build'))
 
 gulp.task 'csbuild', [
-    'styles'
     'jsx'
     'welcome_page_build'
     'create_event_page_build'
@@ -110,32 +108,27 @@ COMMON_CSS = [
     "./bower_components/bootstrap/dist/css/bootstrap.css"
     "./bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css"
     "./thirdparty/flipclock/flipclock.css"
-    "./build/css/common.css"
+    "./build/css/common/common.css"
 ]
 
-
-COMMON_CSS_BUILD = [
-    "./styles/common.styl"
-]
+COMMON_CSS_BUILD = "./styles/common/**/*.styl"
 
 gulp.task 'build-common-css', ->
     gulp.src(COMMON_CSS_BUILD)
         .pipe(stylus())
-        .pipe(gulp.dest("./build/css"))
+        .pipe(gulp.dest("./build/css/common/"))
 
 gulp.task 'common-css', ['build-common-css'], ->
     gulp.src(COMMON_CSS)
         .pipe(concat('common.css'))
         .pipe(gulp.dest('./public/css/'))
 
-gulp.task 'styles', ->
-    gulp.src(SRC_STYLYS_PATH)
-        .pipe(stylus())
-        .pipe(gulp.dest('./public/css/'))
+gulp.task 'fonts', ->
+    gulp.src('./bower_components/bootstrap/dist/fonts/*')
+        .pipe(gulp.dest('./public/fonts/'))
 
 
-gulp.task 'common', ['common-js', 'common-css']
+gulp.task 'common', ['common-js', 'common-css', 'fonts']
 # ============= Watchers =============
 gulp.task 'watch', ['build'], ->
     gulp.watch [SRC_SERVER_PATH, SRC_JSX_PATH, SRC_EJS_PATH], ['build']
-    gulp.watch SRC_STYLYS_PATH, ['styles']
