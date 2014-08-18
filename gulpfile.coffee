@@ -75,17 +75,27 @@ gulp.task 'event_view_page_build', ["default"], ->
         .pipe(gulp.dest('./public/js'))
 
 
+gulp.task 'my_events_list_page_build', ["default"], ->
+    gulp.src('./build/client/my_events_list_page.js', {read: false})
+        .pipe(browserify(browserify_common_config))
+        .pipe(gulp.dest('./public/js'))
+
+
 gulp.task 'jsx', ->
     gulp.src(SRC_JSX_PATH)
         .pipe(react())
         .pipe(gulp.dest('./build'))
+
 
 gulp.task 'csbuild', [
     'jsx'
     'welcome_page_build'
     'create_event_page_build'
     'event_view_page_build'
+    'my_events_list_page_build'
 ]
+
+
 # ============= common libs ==========================
 COMMON_JS_LIBS = [
     "./bower_components/react/react-with-addons.js"
