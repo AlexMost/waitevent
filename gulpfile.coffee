@@ -87,7 +87,14 @@ gulp.task 'jsx', ->
         .pipe(gulp.dest('./build'))
 
 
+gulp.task 'styles', ->
+    gulp.src('./styles/pages/**/*.styl')
+        .pipe(stylus())
+        .pipe(gulp.dest('./public/css/pages/'))
+
+
 gulp.task 'csbuild', [
+    'styles'
     'jsx'
     'welcome_page_build'
     'create_event_page_build'
@@ -141,4 +148,9 @@ gulp.task 'fonts', ->
 gulp.task 'common', ['common-js', 'common-css', 'fonts']
 # ============= Watchers =============
 gulp.task 'watch', ['build'], ->
-    gulp.watch [SRC_SERVER_PATH, SRC_JSX_PATH, SRC_EJS_PATH], ['build']
+    gulp.watch [
+        SRC_SERVER_PATH
+        SRC_JSX_PATH
+        SRC_EJS_PATH
+        './styles/pages/**/*.styl'
+    ], ['build']

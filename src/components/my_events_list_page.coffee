@@ -1,6 +1,7 @@
 React = require 'react'
 {div, h1, p, ul, li, span, a, b, small} = React.DOM
 PageBase = require './portlets/base'
+CountDown = require './portlets/countdown'
 
 
 getEventsGroups = (events) ->
@@ -25,18 +26,19 @@ EventListItem = React.createClass
 
     render: ->
         date = new Date @props.event.createdAt
+        target_date = new Date @props.event.deadLine
 
         div {className: "panel panel-default"},
             div {className: "panel-heading"},
                 b {},
                     a {href: "/event/#{@props.event._id}"},
-                        span {}, @props.event.title
-
-                    small {style: {"margin-left": "20px"}},
-                        "(#{date.toLocaleTimeString()})"
+                        span {className: "event-title"},
+                            @props.event.title
+                    span {className: "countdown"},
+                        new CountDown {target_date}
 
             div {className: "panel-body"},
-                @props.event.description
+                p {}, @props.event.description
 
 
 EventsGroup = React.createClass
@@ -50,7 +52,6 @@ EventsGroup = React.createClass
         ul {className: "list-unstyled"},
             @props.events.map (event) ->
                 li {key: event._id}, new EventListItem {event}
-
 
 
 MyEventsEventsListPage = React.createClass
@@ -70,15 +71,14 @@ MyEventsEventsListPage = React.createClass
     render: ->
         PageBase {user: @props.user},
             h1
-                className: "text-center"
                 style:
                     "margin-bottom": "5%"
-                    "margin-top": "5%"
                 "My events"
 
             @state.groups.map ([date, events]) ->
                 [
-                    p {}, new Date(date).toDateString()
+                    p {className: "event-group text-center"},
+                        new Date(date).toDateString()
                     new EventsGroup
                         key: "key_e_g#{date}"
                         date: date

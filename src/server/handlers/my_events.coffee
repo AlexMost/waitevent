@@ -11,6 +11,9 @@ exports.my_events_get = (req, res) ->
                 res
                 MyEventsListPage
                 {user: req.user, events}
-                {initScript: './js/my_events_list_page.js'}
+                {
+                    initScript: './js/my_events_list_page.js'
+                    css: './css/pages/my_events_list.css'
+                }
             )
     )

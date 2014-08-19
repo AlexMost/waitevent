@@ -38,20 +38,24 @@ CountDown = React.createClass
             @setState {days: 0, hours: 0, minutes: 0, seconds: 0}
 
     render: ->
-        div {className: "row text-center"},
-            div {className: "col-md-2"}
-            div {className: "col-md-2"},
-                span {}, @state.days
-                span {}, "Days"
-            div {className: "col-md-2"},
-                span {}, @state.hours
-                span {}, "Hours"
-            div {className: "col-md-2"},
-                span {}, @state.minutes
-                span {}, "Minutes"
-            div {className: "col-md-2"},
-                span {}, @state.seconds
-                span {}, "Seconds"
-            div {className: "col-md-2"}
+        span {},
+            span {}, "("
+            span {}, @state.days
+            span {className: "countdown-word"},
+                "days"
+
+            span {}, @state.hours
+            span {className: "countdown-word"},
+                "hours"
+
+            span {}, @state.minutes
+            span {className: "countdown-word"},
+                "minutes"
+
+            span {}, @state.seconds
+            span {className: "countdown-word"},
+                "seconds"
+            span {}, ")"
+
 
 module.exports = CountDown
