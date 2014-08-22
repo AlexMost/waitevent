@@ -47,6 +47,7 @@ gulp.task 'buildall', ['build', 'common']
 
 gulp.task 'dev', ['watch'], ->
     nodemon(
+        delay: 1000
         script: './build/server/server.js'
         ext: 'js'
         env:

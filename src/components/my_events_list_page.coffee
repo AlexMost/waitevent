@@ -36,6 +36,9 @@ EventListItem = React.createClass
                             @props.event.title
                     span {className: "countdown"},
                         new CountDown {target_date}
+                a
+                    href: "/edit_event/#{@props.event._id}"
+                    "edit"
 
             div {className: "panel-body"},
                 p {}, @props.event.description

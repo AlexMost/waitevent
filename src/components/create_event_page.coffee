@@ -13,12 +13,30 @@ CreateEventPage = React.createClass
         user: React.PropTypes.object
         errors: React.PropTypes.object
         formData: React.PropTypes.object
+        edit: React.PropTypes.bool
+
 
     getDefaultProps: ->
         errors: {}
         formData: {}
+        edit: false
+
 
     render: ->
+
+        deadLine = (if @props.formData.deadLine
+            new Date @props.formData.deadLine
+        else
+            d = new Date Date.now()
+            d.setHours(d.getHours() + 1)
+            d
+        ).toLocaleString()
+
+        submitButtonText = if @props.edit
+            "Edit event"
+        else
+            "Create event"
+
         PageBase {user: @props.user},
             h1 {className: "text-center"}, "Enter some event data:"
 
@@ -42,14 +60,14 @@ CreateEventPage = React.createClass
                 DateTimePicker
                     key: "datetimepicker"
                     label: "Date time"
-                    name: "deadline"
-                    value: @props.formData.deadline
-                    error: @props.errors.deadline?.msg
+                    name: "deadLine"
+                    value: deadLine
+                    error: @props.errors.deadLine?.msg
                     placeholder: "Select event date time"
 
                 HorizontalFormSubmit
                     key: "submitbtn"
-                    text: "Create event!"
+                    text: submitButtonText
 
 
 module.exports = CreateEventPage

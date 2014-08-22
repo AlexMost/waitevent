@@ -16,6 +16,7 @@ expressValidator = require 'express-validator'
 {welcome_page_get} = require './handlers/welcome_page'
 {event_view_get} = require './handlers/event_view'
 {my_events_get} = require './handlers/my_events'
+{edit_event_get, edit_event_post} = require './handlers/edit_event'
 
 UserEvent = require './models/userEvent'
 config = get_config()
@@ -48,6 +49,9 @@ app.get '/event/:eventId',  event_view_get
 
 app.get '/create_event', is_logged_in, create_event_get
 app.post '/create_event', is_logged_in, create_event_post
+
+app.get '/edit_event/:eventId', is_logged_in, edit_event_get
+app.post '/edit_event/:eventId', is_logged_in, edit_event_post
 
 app.get '/my_events', is_logged_in, my_events_get
 

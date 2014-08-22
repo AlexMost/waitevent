@@ -2,6 +2,15 @@ CreateEventPage = require '../../components/create_event_page'
 UserEvent = require '../models/userEvent'
 {reactRender} = require '../react_render'
 
+
+exports.validate_event_from_req = (req) ->
+    req.checkBody('title', "Title param is required").notEmpty()
+    req.checkBody(
+        'deadLine',
+        "Select events date and time").isDate()
+    req.validationErrors(true)
+
+
 exports.create_event_get = (req, res) ->
     reactRender(
         res
@@ -12,11 +21,7 @@ exports.create_event_get = (req, res) ->
 
 
 exports.create_event_post = (req, res) ->
-    req.checkBody('title', "Title param is required").notEmpty()
-    req.checkBody(
-        'deadline',
-        "Select events date and time").isDate()
-    errors = req.validationErrors(true)
+    errors = exports.validate_event_from_req req
 
     if errors
         reactRender(
@@ -33,7 +38,7 @@ exports.create_event_post = (req, res) ->
         newEvent = new UserEvent(
             title: req.body.title
             description: req.body.description
-            deadLine: req.body.deadline
+            deadLine: req.body.deadLine
             userId: req.user._id
         )
 
