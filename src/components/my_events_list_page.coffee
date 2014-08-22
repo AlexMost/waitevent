@@ -27,17 +27,26 @@ EventsItemToolbar = React.createClass
     render: ->
         div {},
             a
+                ref: 'watch_btn'
                 href: "#"
                 onClick: (ev) -> ev.preventDefault()
+                title: "Add this event to watch list"
+                onMouseEnter: => $(@refs.watch_btn.getDOMNode()).tooltip()
                 span
                     className: "glyphicon glyphicon-eye-open toolbar-icon"
             a
+                ref: 'edit_btn'
                 href: "/edit_event/#{@props.event._id}"
+                title: "Edit event"
+                onMouseEnter: => $(@refs.edit_btn.getDOMNode()).tooltip()
                 span
                     className: "glyphicon glyphicon-pencil toolbar-icon"
             a
                 href: "#"
+                ref: "del_btn"
                 onClick: (ev) -> ev.preventDefault()
+                title: "Remove this event"
+                onMouseEnter: => $(@refs.del_btn.getDOMNode()).tooltip()
                 span
                     className: "glyphicon glyphicon-remove toolbar-icon"
 
@@ -55,7 +64,8 @@ EventListItem = React.createClass
                     div {className: "col-md-11"},
                         b {},
                             a {href: "/event/#{@props.event._id}"},
-                                span {className: "event-title"},
+                                span
+                                    className: "event-title"
                                     @props.event.title
                             span {className: "countdown"},
                                 new CountDown {target_date}
