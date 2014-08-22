@@ -21,6 +21,27 @@ getEventsGroups = (events) ->
     sorted_events.sort ([d1], [d2]) -> d1 - d2
 
 
+EventsItemToolbar = React.createClass
+    displayName: "EventsItemToolbar"
+
+    render: ->
+        div {},
+            a
+                href: "#"
+                onClick: (ev) -> ev.preventDefault()
+                span
+                    className: "glyphicon glyphicon-eye-open toolbar-icon"
+            a
+                href: "/edit_event/#{@props.event._id}"
+                span
+                    className: "glyphicon glyphicon-pencil toolbar-icon"
+            a
+                href: "#"
+                onClick: (ev) -> ev.preventDefault()
+                span
+                    className: "glyphicon glyphicon-remove toolbar-icon"
+
+
 EventListItem = React.createClass
     displayName: "EventListItem"
 
@@ -30,15 +51,17 @@ EventListItem = React.createClass
 
         div {className: "panel panel-default"},
             div {className: "panel-heading"},
-                b {},
-                    a {href: "/event/#{@props.event._id}"},
-                        span {className: "event-title"},
-                            @props.event.title
-                    span {className: "countdown"},
-                        new CountDown {target_date}
-                a
-                    href: "/edit_event/#{@props.event._id}"
-                    "edit"
+                div {className: "row"},
+                    div {className: "col-md-11"},
+                        b {},
+                            a {href: "/event/#{@props.event._id}"},
+                                span {className: "event-title"},
+                                    @props.event.title
+                            span {className: "countdown"},
+                                new CountDown {target_date}
+                    div {className: "col-md-1 text-center"},
+                        new EventsItemToolbar
+                            event: @props.event
 
             div {className: "panel-body"},
                 p {}, @props.event.description

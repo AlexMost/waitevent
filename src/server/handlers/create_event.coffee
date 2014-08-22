@@ -27,20 +27,17 @@ exports.create_event_post = (req, res) ->
         reactRender(
             res
             CreateEventPage
-            {
                 user: req.user
                 errors: errors or {}
                 formData: req.body
-            }
             {initScript: '/js/create_event_page.js'}
         )
     else
-        newEvent = new UserEvent(
+        newEvent = new UserEvent
             title: req.body.title
             description: req.body.description
             deadLine: req.body.deadLine
             userId: req.user._id
-        )
 
         newEvent.save (err, event) ->
             # TODO: handle error
