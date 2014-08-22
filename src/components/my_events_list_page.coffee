@@ -2,6 +2,7 @@ React = require 'react'
 {div, h1, p, ul, li, span, a, b, small} = React.DOM
 PageBase = require './portlets/base'
 CountDown = require './portlets/countdown'
+Modal = require './portlets/modal'
 
 
 getEventsGroups = (events) ->
@@ -24,6 +25,9 @@ getEventsGroups = (events) ->
 EventsItemToolbar = React.createClass
     displayName: "EventsItemToolbar"
 
+    getDefaultProps: ->
+        onDelete: ->
+
     render: ->
         div {},
             a
@@ -44,7 +48,9 @@ EventsItemToolbar = React.createClass
             a
                 href: "#"
                 ref: "del_btn"
-                onClick: (ev) -> ev.preventDefault()
+                onClick: (ev) => 
+                    ev.preventDefault()
+                    @props.onDelete @props.event
                 title: "Remove this event"
                 onMouseEnter: => $(@refs.del_btn.getDOMNode()).tooltip()
                 span
@@ -53,6 +59,9 @@ EventsItemToolbar = React.createClass
 
 EventListItem = React.createClass
     displayName: "EventListItem"
+
+    getDefaultProps: ->
+        onDelete: ->
 
     render: ->
         date = new Date @props.event.createdAt
@@ -72,6 +81,7 @@ EventListItem = React.createClass
                     div {className: "col-md-1 text-center"},
                         new EventsItemToolbar
                             event: @props.event
+                            onDelete: @props.onDelete
 
             div {className: "panel-body"},
                 p {}, @props.event.description
@@ -80,14 +90,21 @@ EventListItem = React.createClass
 EventsGroup = React.createClass
     displayName: "EventsGroup"
 
+    getDefaultProps: ->
+        onDelte: ->
+
     propTypes:
         events: React.PropTypes.array
         date: React.PropTypes.string
 
     render: ->
         ul {className: "list-unstyled"},
-            @props.events.map (event) ->
-                li {key: event._id}, new EventListItem {event}
+            @props.events.map (event) =>
+                li {key: event._id}, new EventListItem(
+                    {
+                        event
+                        onDelete: @props.onDelete
+                    })
 
 
 MyEventsEventsListPage = React.createClass
@@ -119,7 +136,11 @@ MyEventsEventsListPage = React.createClass
                         key: "key_e_g#{date}"
                         date: date
                         events: events
+                        onDelete: (event) -> $("#myModal").modal()
                 ]
+            Modal()
+
+
             
 
 module.exports = MyEventsEventsListPage
