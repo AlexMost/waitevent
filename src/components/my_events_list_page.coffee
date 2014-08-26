@@ -34,6 +34,7 @@ EventsItemToolbar = React.createClass
                 ref: 'edit_btn'
                 href: "/edit_event/#{@props.event._id}"
                 title: "Edit event"
+                className: "color-default"
                 onMouseEnter: => $(@refs.edit_btn.getDOMNode()).tooltip()
                 span
                     className: "glyphicon glyphicon-pencil toolbar-icon"
@@ -44,6 +45,7 @@ EventsItemToolbar = React.createClass
                     ev.preventDefault()
                     @props.onDelete @props.event
                 title: "Remove this event"
+                className: "color-default"
                 onMouseEnter: => $(@refs.del_btn.getDOMNode()).tooltip()
                 span
                     className: "glyphicon glyphicon-remove toolbar-icon"
