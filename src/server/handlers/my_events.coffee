@@ -4,7 +4,7 @@ MyEventsListPage = require '../../components/my_events_list_page'
 
 
 exports.my_events_get = (req, res) ->
-    UserEvent.find({userId: req.user._id})
+    UserEvent.find({userId: req.user._id, status: 1})
         .sort("-createdAt")
         .exec((err, events) ->
             reactRender(

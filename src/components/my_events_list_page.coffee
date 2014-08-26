@@ -48,7 +48,7 @@ EventsItemToolbar = React.createClass
             a
                 href: "#"
                 ref: "del_btn"
-                onClick: (ev) => 
+                onClick: (ev) =>
                     ev.preventDefault()
                     @props.onDelete @props.event
                 title: "Remove this event"
@@ -116,6 +116,7 @@ MyEventsEventsListPage = React.createClass
 
     getInitialState: ->
         groups: []
+        delItem: {}
 
     componentWillMount: ->
         groups = getEventsGroups @props.events
@@ -128,7 +129,7 @@ MyEventsEventsListPage = React.createClass
                     "margin-bottom": "5%"
                 "My events"
 
-            @state.groups.map ([date, events]) ->
+            @state.groups.map ([date, events]) =>
                 [
                     p {className: "event-group text-center"},
                         new Date(date).toDateString()
@@ -136,9 +137,24 @@ MyEventsEventsListPage = React.createClass
                         key: "key_e_g#{date}"
                         date: date
                         events: events
-                        onDelete: (event) -> $("#myModal").modal()
+                        onDelete: (event) =>
+                            @setState {delItem: event}, -> $("#myModal").modal()
                 ]
-            Modal()
+
+            Modal(
+                title: "Confirm delete"
+                onConfirm: =>
+                    $.ajax(
+                        type: "POST"
+                        url: "/delete_event/#{@state.delItem._id}"
+                        data: {}
+                        success: -> console.log arguments
+                    )
+                    $("#myModal").modal('hide')
+
+                div {},
+                    "Delete item #{@state.delItem.title}?"
+            )
 
 
             

@@ -42,3 +42,13 @@ exports.edit_event_post = (req, res) ->
             event.save (err, event) ->
                 # TODO: handle error
                 res.redirect "/event/#{event._id}"
+
+
+exports.delete_event = (req, res) ->
+    user = req.user
+    UserEvent.findOne {_id: req.params.eventId}, (err, event) ->
+        return res.send(404) unless event
+        return res.send(404) unless event.userId != user._id
+        event.status = 3
+        event.save (err, event) ->
+            res.json({status: "ok", action: "deleted", event: event})

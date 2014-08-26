@@ -2,14 +2,24 @@
 var React = require('react');
 
 
-module.exports = function(args) {
+module.exports = function(props, content) {
     return (
-    <div id="myModal" className="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-      <div className="modal-dialog modal-lg">
-        <div className="modal-content">
-          args.content
-        </div>
-      </div>
-    </div>
+		<div id="myModal" className="modal fade">
+		  <div className="modal-dialog">
+		    <div className="modal-content">
+		      <div className="modal-header">
+		        <button type="button" className="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span className="sr-only">Close</span></button>
+		        <h4 className="modal-title">{props.title}</h4>
+		      </div>
+		      <div className="modal-body">
+		        {content}
+		      </div>
+		      <div className="modal-footer">
+		        <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+		        <button type="button" onClick={props.onConfirm} className="btn btn-primary">Save changes</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
     )
 }
