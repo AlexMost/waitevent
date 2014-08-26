@@ -31,14 +31,6 @@ EventsItemToolbar = React.createClass
     render: ->
         div {},
             a
-                ref: 'watch_btn'
-                href: "#"
-                onClick: (ev) -> ev.preventDefault()
-                title: "Add this event to watch list"
-                onMouseEnter: => $(@refs.watch_btn.getDOMNode()).tooltip()
-                span
-                    className: "glyphicon glyphicon-eye-open toolbar-icon"
-            a
                 ref: 'edit_btn'
                 href: "/edit_event/#{@props.event._id}"
                 title: "Edit event"
@@ -95,7 +87,6 @@ EventsGroup = React.createClass
 
     propTypes:
         events: React.PropTypes.array
-        date: React.PropTypes.string
 
     render: ->
         ul {className: "list-unstyled"},
@@ -118,10 +109,6 @@ MyEventsEventsListPage = React.createClass
         groups: []
         delItem: {}
 
-    componentWillMount: ->
-        groups = getEventsGroups @props.events
-        @setState {groups}
-
     render: ->
         PageBase {user: @props.user},
             h1
@@ -129,33 +116,40 @@ MyEventsEventsListPage = React.createClass
                     "margin-bottom": "5%"
                 "My events"
 
-            @state.groups.map ([date, events]) =>
-                [
-                    p {className: "event-group text-center"},
-                        new Date(date).toDateString()
+            if @props.events.length > 0
+                div {},
                     new EventsGroup
-                        key: "key_e_g#{date}"
-                        date: date
-                        events: events
+                        events: @props.events
                         onDelete: (event) =>
                             @setState {delItem: event}, -> $("#myModal").modal()
-                ]
 
-            Modal(
-                title: "Confirm delete"
-                onConfirm: =>
-                    $.ajax(
-                        type: "POST"
-                        url: "/delete_event/#{@state.delItem._id}"
-                        data: {}
-                        success: -> console.log arguments
+                    Modal(
+                        title: "Confirm delete"
+                        onConfirm: =>
+                            $.ajax(
+                                type: "POST"
+                                url: "/delete_event/#{@state.delItem._id}"
+                                data: {}
+                                success: =>
+                                    newEvents = @props.events.filter (ev) =>
+                                        ev._id != @state.delItem._id
+                                    @setProps {events: newEvents}
+                            )
+                            $("#myModal").modal('hide')
+
+                        div {},
+                            "Delete item #{@state.delItem.title}?"
                     )
-                    $("#myModal").modal('hide')
-
+            else
                 div {},
-                    "Delete item #{@state.delItem.title}?"
-            )
-
+                    div {}, "You have no events yet"
+                    div {},
+                        (a
+                            href: "/create_event"
+                            className: "btn btn-success btn-lg"
+                            style: {"margin-top": "5%"}
+                            "Create first event"
+                        )
 
             
 

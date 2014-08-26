@@ -15,8 +15,8 @@ module.exports = function(props, content) {
 		        {content}
 		      </div>
 		      <div className="modal-footer">
-		        <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
-		        <button type="button" onClick={props.onConfirm} className="btn btn-primary">Save changes</button>
+		        <button type="button" className="btn btn-default" data-dismiss="modal">Cancel</button>
+		        <button type="button" onClick={props.onConfirm} className="btn btn-primary">Ok</button>
 		      </div>
 		    </div>
 		  </div>

@@ -13,7 +13,6 @@ TopMenu = React.createClass
             (ul {className:"list-inline"},
                 ((li null, (a {href: "/"}, "Home")))
                 (li null, (a {href: "/my_events"}, "My events"))
-                (li null, (a {href: "/watch_events"}, "Watching"))
             )
             (a {href: "/create_event"}, "Create new event")
         )
