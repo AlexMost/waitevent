@@ -61,7 +61,7 @@ EventListItem = React.createClass
         date = new Date @props.event.createdAt
         target_date = new Date @props.event.deadLine
 
-        div {className: "panel panel-default"},
+        div {className: "panel panel-default box-shadow"},
             div {className: "panel-heading"},
                 div {className: "row"},
                     div {className: "col-md-11"},

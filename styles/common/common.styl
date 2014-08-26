@@ -14,3 +14,14 @@ body
     color: #333!important
 }
 
+$shadow_height = 1px
+$shadow_blur = 1px
+$shadow_spread = 7px
+$shadow_color = #444
+
+.box-shadow {
+    -moz-box-shadow: $shadow_height $shadow_blur $shadow_spread $shadow_color
+    -webkit-box-shadow: $shadow_height $shadow_blur $shadow_spread $shadow_color
+    box-shadow: $shadow_height $shadow_blur $shadow_spread $shadow_color
+}
+
