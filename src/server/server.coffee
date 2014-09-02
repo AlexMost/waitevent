@@ -71,4 +71,5 @@ app.get(
         res.redirect req.session.redirect or "back"
         delete req.session.redirect)
 
-server = app.listen(3000, -> console.log 'Listening port 3000')
+server = app.listen(config.port, ->
+    console.log "Listening port #{config.port}")

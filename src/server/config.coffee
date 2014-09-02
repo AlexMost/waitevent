@@ -1,10 +1,13 @@
 
 # Move this to some kid of ini config file
 config =
-    debug: true
-    db_path: 'mongodb://33.33.33.10/waitevent'
-    redis_host: "33.33.33.10"
-    redis_port: "6379"
+    debug: process.env.DEBUG
+    db_path: process.env.MONGO_CONNECTION
+    redis_host: process.env.REDIS_HOST
+    redis_port: process.env.REIDS_PORT
+    port: process.env.PORT
+    hostname: process.env.HOSTNAME
+
 
 
 exports.get_config = -> config

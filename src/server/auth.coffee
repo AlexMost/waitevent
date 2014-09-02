@@ -5,10 +5,12 @@ User = require './models/user'
 
 
 init_auth = ->
+    config = get_config()
+    
     passport.use(
         (new GoogleStrategy
-            returnURL: 'http://localhost:3000/auth/google/return',
-            realm: 'http://localhost:3000'
+            returnURL: "#{config.hostname}:#{config.port}/auth/google/return",
+            realm: "#{config.hostname}:#{config.port}"
             (googleid, googleProfile, done) ->
                 User.findOne {googleid}, (err, user) ->
                     return done err if err

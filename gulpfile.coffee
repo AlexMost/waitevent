@@ -8,6 +8,7 @@ react = require 'gulp-react'
 concat = require 'gulp-concat'
 literalify = require 'literalify'
 stylus = require 'gulp-stylus'
+envfile = require 'envfile'
 
 SRC_SERVER_PATH = './src/**/*.coffee'
 SRC_CLIENT_PATH = ['./src/client/**/*.coffee',
@@ -50,8 +51,7 @@ gulp.task 'dev', ['watch'], ->
         delay: 1000
         script: './build/server/server.js'
         ext: 'js'
-        env:
-            NODE_ENV: 'development')
+        env: envfile.parseFileSync('./.env'))
 
 
 # ============= client-side build tasks =============
