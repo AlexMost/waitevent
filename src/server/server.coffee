@@ -38,6 +38,7 @@ app.use session
         host: config.redis_host
         port: config.redis_port
         pass: config.redis_pass
+        db: config.redis_db
 
 app.use passport.initialize()
 app.use passport.session()

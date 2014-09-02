@@ -55,7 +55,8 @@ app.use(session({
   store: new RedisStore({
     host: config.redis_host,
     port: config.redis_port,
-    pass: config.redis_pass
+    pass: config.redis_pass,
+    db: config.redis_db
   })
 }));
 
