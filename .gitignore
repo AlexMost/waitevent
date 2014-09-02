@@ -1,4 +1,4 @@
-.*
+git.*
 lib-cov
 *.seed
 *.log
@@ -15,11 +15,8 @@ pids
 logs
 results
 node_modules
-public
 lib
-build
 testbuild
-bower_components
 boxes
 
 npm-debug.log
