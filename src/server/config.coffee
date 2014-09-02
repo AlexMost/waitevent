@@ -8,4 +8,6 @@ config =
     port: process.env.PORT
     hostname: process.env.HOSTNAME
 
-exports.get_config = -> config
+exports.get_config = ->
+    console.log config
+    config
