@@ -54,7 +54,8 @@ app.use(session({
   secret: "redis_session_secret",
   store: new RedisStore({
     host: config.redis_host,
-    port: config.redis_port
+    port: config.redis_port,
+    pass: config.redis_pass
   })
 }));
 

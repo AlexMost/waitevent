@@ -37,6 +37,7 @@ app.use session
     store: new RedisStore
         host: config.redis_host
         port: config.redis_port
+        pass: config.redis_pass
 
 app.use passport.initialize()
 app.use passport.session()
