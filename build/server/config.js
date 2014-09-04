@@ -10,7 +10,8 @@ config = {
   port: process.env.PORT,
   hostname: process.env.HOSTNAME,
   googleClientId: process.env.GOOGLE_CLIENT_ID,
-  googleClientSecret: process.env.GOOGLE_CLIENT_SECRET
+  googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  local: process.env.LOCAL
 };
 
 exports.get_config = function() {

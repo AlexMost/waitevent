@@ -7,11 +7,16 @@ User = require './models/user'
 init_auth = ->
     config = get_config()
     
+    callbackURL = if config.local
+        "#{config.hostname}:#{config.port}/auth/google/return"
+    else
+        config.hostname
+    
     passport.use(
         (new GoogleStrategy
             clientID: config.googleClientId
             clientSecret: config.googleClientSecret
-            callbackURL: "#{config.hostname}:#{config.port}/auth/google/return"
+            callbackURL: callbackURL
             (token, refreshTocken, profile, done) ->
                 User.findOne {googleid: profile.id}, (err, user) ->
                     return done err if err

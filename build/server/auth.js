@@ -9,12 +9,13 @@ User = require('./models/user');
 get_config = require('./config').get_config;
 
 init_auth = function() {
-  var config;
+  var callbackURL, config;
   config = get_config();
+  callbackURL = config.local ? "" + config.hostname + ":" + config.port + "/auth/google/return" : config.hostname;
   passport.use(new GoogleStrategy({
     clientID: config.googleClientId,
     clientSecret: config.googleClientSecret,
-    callbackURL: "" + config.hostname + ":" + config.port + "/auth/google/return"
+    callbackURL: callbackURL
   }, function(token, refreshTocken, profile, done) {
     return User.findOne({
       googleid: profile.id
