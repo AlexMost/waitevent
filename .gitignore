@@ -18,6 +18,8 @@ node_modules
 lib
 testbuild
 boxes
+build
+public
 
 npm-debug.log
 
