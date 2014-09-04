@@ -6,11 +6,13 @@ User = require './models/user'
 
 init_auth = ->
     config = get_config()
-    
+
     callbackURL = if config.local
         "#{config.hostname}:#{config.port}/auth/google/return"
     else
-        config.hostname
+        "#{config.hostname}/auth/google/return"
+    
+    console.log callbackURL
     
     passport.use(
         (new GoogleStrategy
