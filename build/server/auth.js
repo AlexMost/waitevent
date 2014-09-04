@@ -11,7 +11,7 @@ get_config = require('./config').get_config;
 init_auth = function() {
   var callbackURL, config;
   config = get_config();
-  callbackURL = config.local ? "" + config.hostname + ":" + config.port + "/auth/google/return" : config.hostname;
+  callbackURL = config.local ? "" + config.hostname + ":" + config.port + "/auth/google/return" : "" + config.hostname + "/auth/google/return";
   console.log(callbackURL);
   passport.use(new GoogleStrategy({
     clientID: config.googleClientId,
