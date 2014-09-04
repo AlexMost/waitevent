@@ -64,11 +64,12 @@ app.get('/auth/google',
     (req, res, next) ->
         req.session.redirect = req.query.r
         next()
-    passport.authenticate('google'))
+    passport.authenticate('google',
+        {scope: 'https://www.googleapis.com/auth/plus.login'}))
 
-app.get(
-    '/auth/google/return'
-    passport.authenticate('google')
+app.get('/auth/google/return',
+    passport.authenticate('google',
+        {scope: 'https://www.googleapis.com/auth/plus.login'})
     (req, res) ->
         res.redirect req.session.redirect or "back"
         delete req.session.redirect)

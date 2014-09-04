@@ -2,7 +2,7 @@ var GoogleStrategy, User, get_config, init_auth, is_logged_in, passport;
 
 passport = require('passport');
 
-GoogleStrategy = require('passport-google').Strategy;
+GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 User = require('./models/user');
 
@@ -12,11 +12,12 @@ init_auth = function() {
   var config;
   config = get_config();
   passport.use(new GoogleStrategy({
-    returnURL: "" + config.hostname + ":" + config.port + "/auth/google/return",
-    realm: "" + config.hostname + ":" + config.port
-  }, function(googleid, googleProfile, done) {
+    clientID: config.googleClientId,
+    clientSecret: config.googleClientSecret,
+    callbackURL: "" + config.hostname + ":" + config.port + "/auth/google/return"
+  }, function(token, refreshTocken, profile, done) {
     return User.findOne({
-      googleid: googleid
+      googleid: profile.id
     }, function(err, user) {
       var newUser;
       if (err) {
@@ -26,8 +27,8 @@ init_auth = function() {
         return done(null, user);
       } else {
         newUser = new User({
-          googleid: googleid,
-          googleProfile: googleProfile
+          googleid: profile.id,
+          googleProfile: profile
         });
         return newUser.save(function(err, user) {
           return done(err, user);

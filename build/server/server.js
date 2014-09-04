@@ -87,9 +87,13 @@ app.get('/my_events', is_logged_in, my_events_get);
 app.get('/auth/google', function(req, res, next) {
   req.session.redirect = req.query.r;
   return next();
-}, passport.authenticate('google'));
+}, passport.authenticate('google', {
+  scope: 'https://www.googleapis.com/auth/plus.login'
+}));
 
-app.get('/auth/google/return', passport.authenticate('google'), function(req, res) {
+app.get('/auth/google/return', passport.authenticate('google', {
+  scope: 'https://www.googleapis.com/auth/plus.login'
+}), function(req, res) {
   res.redirect(req.session.redirect || "back");
   return delete req.session.redirect;
 });

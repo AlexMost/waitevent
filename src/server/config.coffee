@@ -7,6 +7,8 @@ config =
     redis_db: process.env.REDIS_DB
     port: process.env.PORT
     hostname: process.env.HOSTNAME
+    googleClientId: process.env.GOOGLE_CLIENT_ID
+    googleClientSecret: process.env.GOOGLE_CLIENT_SECRET
 
 exports.get_config = ->
     console.log config
