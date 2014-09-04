@@ -10,6 +10,7 @@ lib-cov
 *.iml
 *.ipr
 *.iws
+.idea
 
 pids
 logs
