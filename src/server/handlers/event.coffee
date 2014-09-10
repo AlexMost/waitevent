@@ -34,7 +34,6 @@ exports.create_event_get = (req, res) ->
 
 
 exports.create_event_post = (req, res) ->
-    console.log validate_ev_from_req
     errors = validate_ev_from_req req
 
     if errors

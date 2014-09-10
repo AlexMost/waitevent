@@ -14,7 +14,7 @@ eventSchema = Schema
     title: String
     description: String
     createdAt: {type: Date, default: Date.now}
-    deadLine: {type: Date}
+    deadLine: {type: String}
     userId: {type: ObjectId, ref: "User"}
     status: {type: Number, default: EVENT_STATUSES.ACTIVE}
 
