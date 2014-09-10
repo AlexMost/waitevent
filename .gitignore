@@ -23,7 +23,7 @@ boxes
 build
 public
 bower_components
-
+dist
 npm-debug.log
 
 !.gitignore

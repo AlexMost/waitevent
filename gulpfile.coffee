@@ -46,7 +46,7 @@ gulp.task 'build', ['default', 'ejs', 'csbuild']
 gulp.task 'buildall', ['build', 'common']
 
 
-gulp.task 'dev', ['watch'], ->
+gulp.task 'dev', ['common', 'watch'], ->
     nodemon(
         delay: 1000
         script: './build/server/server.js'
@@ -147,6 +147,25 @@ gulp.task 'fonts', ->
 
 
 gulp.task 'common', ['common-js', 'common-css', 'fonts']
+# ============= Deploy ===============
+gulp.task 'dist-copy', ->
+    gulp.src('./build/**/*.*')
+        .pipe(gulp.dest('./dist/build'))
+
+    gulp.src('./public/**/*.*')
+        .pipe(gulp.dest('./dist/public'))
+
+    gulp.src('./image/**/*.*')
+        .pipe(gulp.dest('./dist/image'))
+
+    gulp.src(
+        [
+            'Procfile'
+            '.env'
+            'package.json'
+
+        ]).pipe(gulp.dest('./dist'))
+
 # ============= Watchers =============
 gulp.task 'watch', ['build'], ->
     gulp.watch [
