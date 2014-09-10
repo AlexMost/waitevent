@@ -1,5 +1,5 @@
 React = require 'react'
-{div, h1, a, form, script} = React.DOM
+{div, h1, a, form, script, input} = React.DOM
 PageBase = require './portlets/base'
 {HorizontalFormInputText, HorizontalFormTextArea,
 HorizontalFormSubmit} = require './portlets/form'
@@ -68,6 +68,11 @@ CreateEventPage = React.createClass
                 HorizontalFormSubmit
                     key: "submitbtn"
                     text: submitButtonText
+
+                input
+                    type: "hidden"
+                    name: "timezoneOffset"
+                    value: (new Date(Date.now())).getTimezoneOffset()
 
 
 module.exports = CreateEventPage
