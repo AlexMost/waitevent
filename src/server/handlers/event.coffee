@@ -1,3 +1,4 @@
+moment = require 'moment'
 CreateEventPage = require '../../components/create_event_page'
 EventViewPage = require '../../components/event_view_page'
 UserEvent = require '../models/userEvent'
@@ -48,10 +49,12 @@ exports.create_event_post = (req, res) ->
             {initScript: '/js/create_event_page.js'}
         )
     else
+        timezoneOffset = parseInt req.body.timezoneOffset or 0
+        deadLine = moment(req.body.deadLine).zone(timezoneOffset)
         newEvent = new UserEvent
             title: req.body.title
             description: req.body.description
-            deadLine: req.body.deadLine
+            deadLine: deadLine.toString()
             userId: req.user._id
 
         newEvent.save (err, event) ->
@@ -90,9 +93,11 @@ exports.edit_event_post = (req, res) ->
                 {initScript: '/js/create_event_page.js'}
             )
         else
+            timezoneOffset = parseInt req.body.timezoneOffset or 0
+            deadLine = moment(req.body.deadLine).zone(timezoneOffset)
             event.title = req.body.title
             event.description = req.body.description
-            event.deadLine = req.body.deadLine
+            event.deadLine = deadLine.toString()
 
             event.save (err, event) ->
                 # TODO: handle error

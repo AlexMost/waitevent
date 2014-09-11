@@ -40,7 +40,11 @@ CreateEventPage = React.createClass
         PageBase {user: @props.user},
             h1 {className: "text-center"}, "Enter some event data:"
 
-            form {className: "form-horizontal", role: "form", method: "POST"},
+            form {
+                className: "form-horizontal"
+                role: "form"
+                method: "POST"
+                },
                 HorizontalFormInputText
                     key: "titleinput"
                     label: "Title"
