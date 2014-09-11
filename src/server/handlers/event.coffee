@@ -49,12 +49,10 @@ exports.create_event_post = (req, res) ->
             {initScript: '/js/create_event_page.js'}
         )
     else
-        timezoneOffset = parseInt req.body.timezoneOffset or 0
-        deadLine = moment(req.body.deadLine).zone(timezoneOffset)
         newEvent = new UserEvent
             title: req.body.title
             description: req.body.description
-            deadLine: deadLine.toString()
+            deadLine: req.body.deadLine
             userId: req.user._id
 
         newEvent.save (err, event) ->
@@ -93,11 +91,9 @@ exports.edit_event_post = (req, res) ->
                 {initScript: '/js/create_event_page.js'}
             )
         else
-            timezoneOffset = parseInt req.body.timezoneOffset or 0
-            deadLine = moment(req.body.deadLine).zone(timezoneOffset)
             event.title = req.body.title
             event.description = req.body.description
-            event.deadLine = deadLine.toString()
+            event.deadLine = req.body.deadLine
 
             event.save (err, event) ->
                 # TODO: handle error

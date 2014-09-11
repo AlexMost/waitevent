@@ -41,9 +41,12 @@ CreateEventPage = React.createClass
             h1 {className: "text-center"}, "Enter some event data:"
 
             form {
-                className: "form-horizontal"
-                role: "form"
-                method: "POST"
+                ref: "event_form"
+                className: "form-horizontal", role: "form", method: "POST",
+                onSubmit: =>
+                    jdtp = $ "#datetimepicker_id"
+                    jdtp.val new Date(jdtp.val()).toString()
+                    @refs.event_form.getDOMNode().submit()
                 },
                 HorizontalFormInputText
                     key: "titleinput"
