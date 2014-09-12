@@ -9,6 +9,9 @@ concat = require 'gulp-concat'
 literalify = require 'literalify'
 stylus = require 'gulp-stylus'
 envfile = require 'envfile'
+filter = require 'gulp-filter'
+uglify = require 'gulp-uglify'
+cssminify = require 'gulp-minify-css'
 
 SRC_SERVER_PATH = './src/**/*.coffee'
 SRC_CLIENT_PATH = ['./src/client/**/*.coffee',
@@ -42,11 +45,9 @@ gulp.task 'ejs', ->
 
 gulp.task 'build', ['default', 'ejs', 'csbuild']
 
-
 gulp.task 'buildall', ['build', 'common']
 
-
-gulp.task 'dev', ['common', 'watch'], ->
+gulp.task 'run', ['buildall', 'watch'], ->
     nodemon(
         delay: 1000
         script: './build/server/server.js'
@@ -148,11 +149,19 @@ gulp.task 'fonts', ->
 
 gulp.task 'common', ['common-js', 'common-css', 'fonts']
 # ============= Deploy ===============
-gulp.task 'dist-copy', ->
+gulp.task 'deploy', ['buildall'], ->
     gulp.src('./build/**/*.*')
         .pipe(gulp.dest('./dist/build'))
 
+    jsfilter = filter "**/*.js"
+    cssfilter = filter "**/*.css"
     gulp.src('./public/**/*.*')
+        .pipe(jsfilter)
+        .pipe(uglify())
+        .pipe(jsfilter.restore())
+        .pipe(cssfilter)
+        .pipe(cssminify())
+        .pipe(cssfilter.restore())
         .pipe(gulp.dest('./dist/public'))
 
     gulp.src('./image/**/*.*')
@@ -167,7 +176,7 @@ gulp.task 'dist-copy', ->
         ]).pipe(gulp.dest('./dist'))
 
 # ============= Watchers =============
-gulp.task 'watch', ['build'], ->
+gulp.task 'watch', ->
     gulp.watch [
         SRC_SERVER_PATH
         SRC_JSX_PATH
