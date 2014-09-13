@@ -37,7 +37,7 @@ TopMenu = React.createClass
 
     renderUnAuth: ->
         (div {className: "text-right"},
-            (a {href: "//auth/google?r=/create_event"},
+            (a {href: "/auth/google?r=/create_event"},
                 "Authorize and create event"))
 
     render: ->
