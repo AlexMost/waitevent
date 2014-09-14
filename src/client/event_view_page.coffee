@@ -10,6 +10,10 @@ init = ->
         transport.join_event component.props.event, (err, result) ->
             component.setProps {event: result.event} unless err
 
+    componentData.onUnjoinEvent = (event) ->
+        transport.unjoin_event component.props.event, (err, result) ->
+            component.setProps {event: result.event} unless err
+
     component = React.renderComponent(
         new EventViewPage componentData
         mountNode

@@ -14,3 +14,12 @@ exports.join_event = (event, cb) ->
         success: (data) -> cb null, data
         error: (data) -> cb data
     )
+
+
+exports.unjoin_event = (event, cb) ->
+    $.ajax(
+        type: "POST"
+        url: "/unjoin_event/#{event._id}"
+        success: (data) -> cb null, data
+        error: (data) -> cb data
+    )

@@ -4,6 +4,27 @@ PageBase = require './portlets/base'
 CountDown = require './portlets/countdown'
 FlipClock = require './portlets/flipclock'
 
+EventJoinButton = React.createClass
+    displayName: "EventJoinButton"
+
+    propTypes:
+        event: React.PropTypes.object
+        user: React.PropTypes.object
+
+    render: ->
+        eventIds = @props.event.participants.map (p) ->
+            p.toString()
+        if @props.user._id.toString() in eventIds
+            button
+                className: "btn btn-success"
+                onClick: @props.onUnjoin
+                "leave"
+        else
+            button
+                className: "btn btn-success"
+                onClick: @props.onJoin
+                "join"
+
 
 EventViewPage = React.createClass
     displayName: "EventViewPage"
@@ -35,10 +56,11 @@ EventViewPage = React.createClass
                 div {className: "col-md-2"}
 
             div {},
-                button
-                    className: "btn btn-success"
-                    onClick: @props.onJoinEvent
-                    "join"
+                EventJoinButton
+                    event: @props.event
+                    user: @props.user
+                    onJoin: @props.onJoinEvent
+                    onUnjoin: @props.onUnjoinEvent
                 span {style: {"margin-right": "5px"}},
                     "participants"
                 span {}, @props.event.participants.length

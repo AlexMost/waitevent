@@ -121,5 +121,27 @@ exports.join_event = (req, res) ->
             return (res.send 403)
 
         event.participants.push user
+        user.joinedEvents.push event
+
         event.save (err, event) ->
-            res.json({status: "ok", action: "joined", event})
+            user.save (err, user) ->
+                res.json({status: "ok", action: "joined", event})
+
+
+exports.unjoin_event = (req, res) ->
+    user = req.user
+    eventId = req.params.eventId
+
+    UserEvent.findOne {_id: eventId}, (err, event) ->
+        return res.send(404) unless event
+        userId = user._id.toString()
+
+        event.participants = event.participants.filter (p) ->
+            p.toString() != userId
+        user.joinedEvents = user.joinedEvents.filter (e) ->
+            e.toString() != userId
+
+        event.save (err, event) ->
+            user.save (err, user) ->
+                res.json({status: "ok", action: "joined", event})
+
