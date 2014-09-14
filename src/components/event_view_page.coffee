@@ -14,16 +14,26 @@ EventJoinButton = React.createClass
     render: ->
         eventIds = @props.event.participants.map (p) ->
             p.toString()
-        if @props.user._id.toString() in eventIds
-            button
-                className: "btn btn-success"
-                onClick: @props.onUnjoin
-                "leave"
-        else
-            button
-                className: "btn btn-success"
-                onClick: @props.onJoin
-                "join"
+
+        div {className: "join-container"},
+            span {className: "h-ml-5 participants-number"},
+                @props.event.participants.length
+
+            span {className: "h-ml-5 participants-text"},
+                "participants"
+
+            if @props.user
+                if @props.user._id.toString() in eventIds
+                    button
+                        className: "h-ml-5 btn btn-default btn-xs"
+                        onClick: @props.onUnjoin
+                        span {className: "glyphicon glyphicon-minus"}
+                else
+                    button
+                        className: "h-ml-5 btn btn-success btn-xs"
+                        onClick: @props.onJoin
+                        span {className: "glyphicon glyphicon-plus"}
+                        span {className: "join-text"}, "join"
 
 
 EventViewPage = React.createClass
@@ -32,6 +42,7 @@ EventViewPage = React.createClass
     propTypes:
         event: React.PropTypes.object
         onJoinEvent: React.PropTypes.func
+        onUnjoinEvent: React.PropTypes.func
 
     render: ->
         PageBase {user: @props.user},
@@ -45,6 +56,14 @@ EventViewPage = React.createClass
                     "margin-top": "10%"
                 @props.event.title
 
+            div {className: "row"},
+                div {className: "col-md-12 text-right h-pr-0"},
+                    EventJoinButton
+                        event: @props.event
+                        user: @props.user
+                        onJoin: @props.onJoinEvent
+                        onUnjoin: @props.onUnjoinEvent
+
             div
                 className: "well row text-center"
                 style: {"margin-bottom": "10%"}
@@ -54,21 +73,9 @@ EventViewPage = React.createClass
                     FlipClock
                         target_date: @props.event.deadLine
                 div {className: "col-md-2"}
-
-            div {},
-                EventJoinButton
-                    event: @props.event
-                    user: @props.user
-                    onJoin: @props.onJoinEvent
-                    onUnjoin: @props.onUnjoinEvent
-                span {style: {"margin-right": "5px"}},
-                    "participants"
-                span {}, @props.event.participants.length
-
+                
             div {className: "text-center event-description"},
                 p {}, @props.event.description
-
-
 
 
 module.exports = EventViewPage

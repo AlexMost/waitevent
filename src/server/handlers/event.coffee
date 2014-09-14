@@ -7,9 +7,7 @@ UserEvent = require '../models/userEvent'
 
 validate_ev_from_req = (req) ->
     req.checkBody('title', "Title param is required").notEmpty()
-    req.checkBody(
-        'deadLine',
-        "Select events date and time").isDate()
+    req.checkBody('deadLine', "Select events date and time").isDate()
     req.validationErrors(true)
 
 
@@ -21,7 +19,10 @@ exports.event_view_get = (req, res) ->
             res
             EventViewPage
             {user: req.user, event}
-            {initScript: '/js/event_view_page.js'}
+            {
+                initScript: '/js/event_view_page.js',
+                css: '/css/pages/event_view.css'
+            }
         )
 
 
@@ -55,6 +56,7 @@ exports.create_event_post = (req, res) ->
             deadLine: req.body.deadLine
             userId: req.user._id
 
+        newEvent.participants.push req.user
         newEvent.save (err, event) ->
             # TODO: handle error
             res.redirect "/event/#{event._id}"
