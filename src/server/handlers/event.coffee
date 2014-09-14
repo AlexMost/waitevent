@@ -108,3 +108,18 @@ exports.delete_event = (req, res) ->
         event.status = 3
         event.save (err, event) ->
             res.json({status: "ok", action: "deleted", event: event})
+
+
+exports.join_event = (req, res) ->
+    user = req.user
+    eventId = req.params.eventId
+    UserEvent.findOne {_id: eventId}, (err, event) ->
+        return res.send(404) unless event
+        participantIds = event.participants.map (p) ->
+            p.toString()
+        if user._id.toString() in participantIds
+            return (res.send 403)
+
+        event.participants.push user
+        event.save (err, event) ->
+            res.json({status: "ok", action: "joined", event})

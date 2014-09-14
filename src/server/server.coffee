@@ -14,7 +14,7 @@ expressValidator = require 'express-validator'
 
 {create_event_post, create_event_get,
 edit_event_get, edit_event_post,
-delete_event, event_view_get} = require './handlers/event'
+delete_event, event_view_get, join_event} = require './handlers/event'
 
 {welcome_page_get} = require './handlers/welcome_page'
 {my_events_get} = require './handlers/events_list'
@@ -57,6 +57,8 @@ app.get '/edit_event/:eventId', is_logged_in, edit_event_get
 app.post '/edit_event/:eventId', is_logged_in, edit_event_post
 
 app.post '/delete_event/:eventId', is_logged_in, delete_event
+
+app.post '/join_event/:eventId', is_logged_in, join_event
 
 app.get '/my_events', is_logged_in, my_events_get
 

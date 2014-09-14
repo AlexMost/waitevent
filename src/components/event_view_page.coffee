@@ -1,5 +1,5 @@
 React = require 'react'
-{div, h1, p, ul, li, span, a} = React.DOM
+{div, h1, p, ul, li, span, a, button} = React.DOM
 PageBase = require './portlets/base'
 CountDown = require './portlets/countdown'
 FlipClock = require './portlets/flipclock'
@@ -10,6 +10,7 @@ EventViewPage = React.createClass
 
     propTypes:
         event: React.PropTypes.object
+        onJoinEvent: React.PropTypes.func
 
     render: ->
         PageBase {user: @props.user},
@@ -32,6 +33,15 @@ EventViewPage = React.createClass
                     FlipClock
                         target_date: @props.event.deadLine
                 div {className: "col-md-2"}
+
+            div {},
+                button
+                    className: "btn btn-success"
+                    onClick: @props.onJoinEvent
+                    "join"
+                span {style: {"margin-right": "5px"}},
+                    "participants"
+                span {}, @props.event.participants.length
 
             div {className: "text-center event-description"},
                 p {}, @props.event.description

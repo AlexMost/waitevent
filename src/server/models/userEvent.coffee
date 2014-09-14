@@ -17,6 +17,7 @@ eventSchema = Schema
     deadLine: {type: String}
     userId: {type: ObjectId, ref: "User"}
     status: {type: Number, default: EVENT_STATUSES.ACTIVE}
+    participants: [{type: ObjectId, ref: "User"}]
 
 
 UserEvent = mongoose.model("UserEvent", eventSchema)
