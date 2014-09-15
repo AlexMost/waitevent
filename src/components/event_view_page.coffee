@@ -3,13 +3,20 @@ React = require 'react'
 PageBase = require './portlets/base'
 CountDown = require './portlets/countdown'
 FlipClock = require './portlets/flipclock'
+Popover = require './portlets/popover'
 
 EventJoinButton = React.createClass
     displayName: "EventJoinButton"
 
+
     propTypes:
         event: React.PropTypes.object
         user: React.PropTypes.object
+
+
+    getInitialState: ->
+        showPopup: false
+
 
     render: ->
         eventIds = @props.event.participants.map (p) ->
@@ -19,8 +26,18 @@ EventJoinButton = React.createClass
             span {className: "h-ml-5 participants-number"},
                 @props.event.participants.length
 
-            span {className: "h-ml-5 participants-text"},
+            span
+                ref: "participants"
+                className: "h-ml-5 participants-text"
+                onClick: => @setState {showPopup: !@state.showPopup}
                 "participants"
+
+            if @state.showPopup
+                Popover(
+                    ref: "part_popup"
+                    source: @refs.participants
+                    div {}, "hello"
+                )
 
             if @props.user
                 if @props.user._id.toString() in eventIds
