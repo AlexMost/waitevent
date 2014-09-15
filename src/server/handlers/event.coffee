@@ -12,18 +12,20 @@ validate_ev_from_req = (req) ->
 
 
 exports.event_view_get = (req, res) ->
-    UserEvent.findOne {_id: req.params.eventId}, (err, event) ->
-        return res.send(404) unless event
+    UserEvent.findOne({_id: req.params.eventId})
+        .populate("participants")
+        .exec (err, event) ->
+            return res.send(404) unless event
 
-        reactRender(
-            res
-            EventViewPage
-            {user: req.user, event}
-            {
-                initScript: '/js/event_view_page.js',
-                css: '/css/pages/event_view.css'
-            }
-        )
+            reactRender(
+                res
+                EventViewPage
+                {user: req.user, event}
+                {
+                    initScript: '/js/event_view_page.js',
+                    css: '/css/pages/event_view.css'
+                }
+            )
 
 
 exports.create_event_get = (req, res) ->
@@ -115,35 +117,42 @@ exports.delete_event = (req, res) ->
 exports.join_event = (req, res) ->
     user = req.user
     eventId = req.params.eventId
-    UserEvent.findOne {_id: eventId}, (err, event) ->
-        return res.send(404) unless event
-        participantIds = event.participants.map (p) ->
-            p.toString()
-        if user._id.toString() in participantIds
-            return (res.send 403)
+    UserEvent.findOne({_id: eventId})
+        .populate("participants")
+        .exec (err, event) ->
+            return res.send(404) unless event
 
-        event.participants.push user
-        user.joinedEvents.push event
+            participantIds = event.participants.map (p) ->
+                p._id.toString()
 
-        event.save (err, event) ->
-            user.save (err, user) ->
-                res.json({status: "ok", action: "joined", event})
+            if user._id.toString() in participantIds
+                return (res.send 403)
+
+            event.participants.push user
+            user.joinedEvents.push event
+
+            event.save (err, event) ->
+                user.save (err, user) ->
+                    res.json({status: "ok", action: "joined", event})
 
 
 exports.unjoin_event = (req, res) ->
     user = req.user
     eventId = req.params.eventId
 
-    UserEvent.findOne {_id: eventId}, (err, event) ->
-        return res.send(404) unless event
-        userId = user._id.toString()
+    UserEvent.findOne({_id: eventId})
+        .populate("participants")
+        .exec (err, event) ->
+            return res.send(404) unless event
+            userId = user._id.toString()
 
-        event.participants = event.participants.filter (p) ->
-            p.toString() != userId
-        user.joinedEvents = user.joinedEvents.filter (e) ->
-            e.toString() != userId
+            event.participants = event.participants.filter (p) ->
+                p._id.toString() != userId
+                
+            user.joinedEvents = user.joinedEvents.filter (e) ->
+                e.toString() != userId
 
-        event.save (err, event) ->
-            user.save (err, user) ->
-                res.json({status: "ok", action: "joined", event})
+            event.save (err, event) ->
+                user.save (err, user) ->
+                    res.json({status: "ok", action: "joined", event})
 

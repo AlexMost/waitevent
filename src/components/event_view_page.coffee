@@ -1,9 +1,19 @@
 React = require 'react'
-{div, h1, p, ul, li, span, a, button} = React.DOM
+{div, h1, p, ul, li, span, a, button, img} = React.DOM
 PageBase = require './portlets/base'
 CountDown = require './portlets/countdown'
 FlipClock = require './portlets/flipclock'
 Popover = require './portlets/popover'
+
+Participants = React.createClass
+    displayName: "Participants"
+    render: ->
+        div {},
+            @props.participants.map (p) ->
+                div {},
+                    img {src: "#{p.googleProfile._json.picture}?sz=50"}
+
+
 
 EventJoinButton = React.createClass
     displayName: "EventJoinButton"
@@ -20,7 +30,7 @@ EventJoinButton = React.createClass
 
     render: ->
         eventIds = @props.event.participants.map (p) ->
-            p.toString()
+            p._id.toString()
 
         div {className: "join-container"},
             span {className: "h-ml-5 participants-number"},
@@ -34,9 +44,11 @@ EventJoinButton = React.createClass
 
             if @state.showPopup
                 Popover(
+                    title: "Event participants"
                     ref: "part_popup"
                     source: @refs.participants
-                    div {}, "hello"
+                    Participants
+                        participants: @props.event.participants
                 )
 
             if @props.user

@@ -9,7 +9,6 @@ Popover = React.createClass
         visible: true
         top: 0
         left: 0
-        width: "400px"
 
     componentDidMount: ->
         jnode = $ @props.source.getDOMNode()
@@ -30,15 +29,15 @@ Popover = React.createClass
             style:
                 top: @state.top
                 left: @state.left
-                width: @state.width
 
         if @state.visible
             wrapper_props['style']['display'] = "block"
 
         div wrapper_props,
             div {className: "arrow"}
-            h3 {className:"popover-title"},
-                "Popover bottom"
+            if @props.title
+                h3 {className:"popover-title"},
+                    @props.title
 
             div {className:"popover-content"},
                 p {}, @props.children
