@@ -6,12 +6,23 @@ Popover = React.createClass
     displayName: "Popover"
 
     getInitialState: ->
-        visible: true
+        visible: false
         top: 0
         left: 0
 
-    componentDidMount: ->
-        jnode = $ @props.source.getDOMNode()
+    isOutside: (ev) -> $(@getDOMNode()).has(ev.target).length
+
+    checkIfClose: (ev) -> @hide() if @isOutside ev
+
+    componentDidUpdate: ->
+        if @state.visible
+            $(document).on 'click', @checkIfClose
+        else
+            $(document).unbind 'click', @checkIfClose
+
+
+    show: ->
+        jnode = $ @props.source().getDOMNode()
         self_node = $ @getDOMNode()
         self_width = self_node.width()
 
@@ -21,17 +32,24 @@ Popover = React.createClass
         s_width = jnode.width()
         s_center = s_left + s_width/2
         p_left = s_center - self_width/2
-        @setState {top: p_top, left: p_left}
+        @setState {top: p_top, left: p_left, visible: true}
 
+    hide: -> @setState {visible: false}
+
+    toggle: -> if @state.visible then @hide() else @show()
+        
     render: ->
         wrapper_props =
             className: "popover bottom"
             style:
                 top: @state.top
                 left: @state.left
-
-        if @state.visible
-            wrapper_props['style']['display'] = "block"
+                display: "block"
+        
+        wrapper_props.style.visibility = if @state.visible
+            "visible"
+        else
+            "hidden"
 
         div wrapper_props,
             div {className: "arrow"}
@@ -41,6 +59,5 @@ Popover = React.createClass
 
             div {className:"popover-content"},
                 p {}, @props.children
-
 
 module.exports = Popover

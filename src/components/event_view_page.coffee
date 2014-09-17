@@ -28,13 +28,8 @@ EventJoinButton = React.createClass
         participants: React.PropTypes.array
         user: React.PropTypes.object
 
-
-    getInitialState: ->
-        showPopup: false
-
     getDefaultProps: ->
         participants: []
-
 
     render: ->
         partIds = @props.participants.map (p) -> p.id
@@ -45,18 +40,17 @@ EventJoinButton = React.createClass
             span
                 ref: "participants"
                 className: "h-ml-5 participants-text"
-                onClick: => @setState {showPopup: !@state.showPopup}
+                onClick: => @refs.part_popup.toggle()
                 "participants"
 
-            if @state.showPopup
-                Popover(
-                    width: 200
-                    title: "Event participants"
-                    ref: "part_popup"
-                    source: @refs.participants
-                    Participants
-                        participants: @props.participants
-                )
+            Popover(
+                width: 200
+                title: "Event participants"
+                ref: "part_popup"
+                source: => @refs.participants
+                Participants
+                    participants: @props.participants
+            )
 
             if @props.user
                 if @props.user._id.toString() in partIds
