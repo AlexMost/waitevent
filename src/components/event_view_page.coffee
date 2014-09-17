@@ -8,10 +8,16 @@ Popover = require './portlets/popover'
 Participants = React.createClass
     displayName: "Participants"
     render: ->
-        div {},
+        div {className: "participants-container"},
             @props.participants.map (p) ->
-                div {},
-                    img {src: "#{p.picture50}"}
+                div {className: "participant-item"},
+                    a {
+                        className: "participant-link"
+                        href: p.link
+                        target: "_blank"},
+                        span {className: "participant-name"}, p.name
+                        img {src: "#{p.picture50}"}
+            div {className: "clear"}
 
 
 EventJoinButton = React.createClass
@@ -19,7 +25,7 @@ EventJoinButton = React.createClass
 
 
     propTypes:
-        event: React.PropTypes.object
+        participants: React.PropTypes.array
         user: React.PropTypes.object
 
 
@@ -31,8 +37,7 @@ EventJoinButton = React.createClass
 
 
     render: ->
-        eventIds = []
-
+        partIds = @props.participants.map (p) -> p.id
         div {className: "join-container"},
             span {className: "h-ml-5 participants-number"},
                 @props.participants.length
@@ -45,6 +50,7 @@ EventJoinButton = React.createClass
 
             if @state.showPopup
                 Popover(
+                    width: 200
                     title: "Event participants"
                     ref: "part_popup"
                     source: @refs.participants
@@ -53,7 +59,7 @@ EventJoinButton = React.createClass
                 )
 
             if @props.user
-                if @props.user._id.toString() in eventIds
+                if @props.user._id.toString() in partIds
                     button
                         className: "h-ml-5 btn btn-default btn-xs"
                         onClick: @props.onUnjoin
@@ -70,6 +76,7 @@ EventViewPage = React.createClass
     displayName: "EventViewPage"
 
     propTypes:
+        participants: React.PropTypes.array
         event: React.PropTypes.object
         onJoinEvent: React.PropTypes.func
         onUnjoinEvent: React.PropTypes.func

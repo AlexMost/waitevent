@@ -8,11 +8,19 @@ transport = require './transport'
 init = ->
     componentData.onJoinEvent = (event) ->
         transport.join_event component.props.event, (err, result) ->
-            component.setProps {event: result.event} unless err
+            unless err
+                component.setProps {
+                    event: result.event
+                    participants: result.participants
+                }
 
     componentData.onUnjoinEvent = (event) ->
         transport.unjoin_event component.props.event, (err, result) ->
-            component.setProps {event: result.event} unless err
+            unless err
+                component.setProps {
+                    event: result.event
+                    participants: result.participants
+                }
 
     component = React.renderComponent(
         new EventViewPage componentData

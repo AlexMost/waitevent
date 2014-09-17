@@ -124,24 +124,26 @@ exports.delete_event = (req, res) ->
 exports.join_event = (req, res) ->
     user = req.user
     eventId = req.params.eventId
-    UserEvent.findOne({_id: eventId})
-        .populate("participants")
-        .exec (err, event) ->
-            return res.send(404) unless event
 
-            participantIds = event.participants.map (p) ->
-                p._id.toString()
+    UserEvent.findOne {_id: eventId}, (err, event) ->
+        if user._id.toString() in (event.participants.map (p) -> p.toString())
+            return (res.send 403)
 
-            if user._id.toString() in participantIds
-                return (res.send 403)
+        event.participants.push user
+        user.joinedEvents.push event
 
-            event.participants.push user
-            user.joinedEvents.push event
+        User.find {_id: {$in: event.participants}}, (err, raw_participants) ->
+            participants = raw_participants.map userView
 
             event.save (err, event) ->
                 user.save (err, user) ->
-                    event.participants = event.participants.map userView
-                    res.json({status: "ok", action: "joined", event})
+                    res.json(
+                        {
+                            status: "ok"
+                            action: "joined"
+                            event
+                            participants
+                        })
 
 
 exports.unjoin_event = (req, res) ->
@@ -149,24 +151,27 @@ exports.unjoin_event = (req, res) ->
     eventId = req.params.eventId
 
     p_user_event = UserEvent.findOne({_id: eventId}).exec()
-    p_participants = p_userEvent.then(
+    p_participants = p_user_event.then(
         (event) -> User.find(
-            {_id: {$in: event.participants}, _id: {$ne: user._id}}).exec())
+            {_id: {$in: event.participants}}).exec())
 
-    Q.spread([p_userEvent, p_participants], (event, raw_participants) ->
-        participants = raw_participants.map userView
-
-        userId = user._id.toString()
-
-        event.participants = event.participants.filter (p) ->
-            p._id.toString() != userId
+    Q.spread([p_user_event, p_participants], (event, raw_participants) ->
+        participants = raw_participants
+            .filter((p) -> p._id.toString() != user._id.toString())
+            .map(userView)
 
         user.joinedEvents = user.joinedEvents.filter (e) ->
-            e.toString() != userId
+            e.toString() != event._id.toString()
+
+        event.participants = event.participants.filter (p) ->
+            p.toString() != user._id.toString()
 
         event.save (err, event) ->
             user.save (err, user) ->
                 res.json(
                     {status: "ok", action: "joined", event, participants})
+    ).fail((err) ->
+        console.log err.stack
+        res.send(403).end()
     )
 

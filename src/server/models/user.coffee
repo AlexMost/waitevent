@@ -13,7 +13,8 @@ User = mongoose.model("User", userSchema)
 userView = (user) ->
     {
         id: user._id
-        name: user.googleProfile._json.name
+        fullName: user.googleProfile._json.name
+        name: user.googleProfile._json.given_name
         picture50: "#{user.googleProfile._json.picture}?sz=50"
         link: user.googleProfile._json.link
     }
