@@ -2,7 +2,9 @@ moment = require 'moment'
 CreateEventPage = require '../../components/create_event_page'
 EventViewPage = require '../../components/event_view_page'
 UserEvent = require '../models/userEvent'
+{User, userView} = require '../models/user'
 {reactRender} = require '../react_render'
+Q = require 'q'
 
 
 validate_ev_from_req = (req) ->
@@ -12,20 +14,25 @@ validate_ev_from_req = (req) ->
 
 
 exports.event_view_get = (req, res) ->
-    UserEvent.findOne({_id: req.params.eventId})
-        .populate("participants")
-        .exec (err, event) ->
-            return res.send(404) unless event
-
-            reactRender(
-                res
-                EventViewPage
-                {user: req.user, event}
-                {
-                    initScript: '/js/event_view_page.js',
-                    css: '/css/pages/event_view.css'
-                }
-            )
+    p_userEvent = UserEvent.findOne({_id: req.params.eventId}).exec()
+    p_participants = p_userEvent.then(
+        (event) -> User.find({_id: {$in: event.participants}}).exec())
+    
+    Q.spread([p_userEvent, p_participants], (user_event, raw_participants) ->
+        participants = raw_participants.map userView
+        reactRender(
+            res
+            EventViewPage
+            {user: req.user, event: user_event, participants}
+            {
+                initScript: '/js/event_view_page.js',
+                css: '/css/pages/event_view.css'
+            }
+        )
+    ).fail((error) ->
+        console.log error.stack
+        res.send(403).end()
+    )
 
 
 exports.create_event_get = (req, res) ->
@@ -133,6 +140,7 @@ exports.join_event = (req, res) ->
 
             event.save (err, event) ->
                 user.save (err, user) ->
+                    event.participants = event.participants.map userView
                     res.json({status: "ok", action: "joined", event})
 
 
@@ -140,19 +148,25 @@ exports.unjoin_event = (req, res) ->
     user = req.user
     eventId = req.params.eventId
 
-    UserEvent.findOne({_id: eventId})
-        .populate("participants")
-        .exec (err, event) ->
-            return res.send(404) unless event
-            userId = user._id.toString()
+    p_user_event = UserEvent.findOne({_id: eventId}).exec()
+    p_participants = p_userEvent.then(
+        (event) -> User.find(
+            {_id: {$in: event.participants}, _id: {$ne: user._id}}).exec())
 
-            event.participants = event.participants.filter (p) ->
-                p._id.toString() != userId
-                
-            user.joinedEvents = user.joinedEvents.filter (e) ->
-                e.toString() != userId
+    Q.spread([p_userEvent, p_participants], (event, raw_participants) ->
+        participants = raw_participants.map userView
 
-            event.save (err, event) ->
-                user.save (err, user) ->
-                    res.json({status: "ok", action: "joined", event})
+        userId = user._id.toString()
+
+        event.participants = event.participants.filter (p) ->
+            p._id.toString() != userId
+
+        user.joinedEvents = user.joinedEvents.filter (e) ->
+            e.toString() != userId
+
+        event.save (err, event) ->
+            user.save (err, user) ->
+                res.json(
+                    {status: "ok", action: "joined", event, participants})
+    )
 

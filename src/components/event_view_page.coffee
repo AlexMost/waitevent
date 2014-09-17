@@ -11,8 +11,7 @@ Participants = React.createClass
         div {},
             @props.participants.map (p) ->
                 div {},
-                    img {src: "#{p.googleProfile._json.picture}?sz=50"}
-
+                    img {src: "#{p.picture50}"}
 
 
 EventJoinButton = React.createClass
@@ -27,14 +26,16 @@ EventJoinButton = React.createClass
     getInitialState: ->
         showPopup: false
 
+    getDefaultProps: ->
+        participants: []
+
 
     render: ->
-        eventIds = @props.event.participants.map (p) ->
-            p._id.toString()
+        eventIds = []
 
         div {className: "join-container"},
             span {className: "h-ml-5 participants-number"},
-                @props.event.participants.length
+                @props.participants.length
 
             span
                 ref: "participants"
@@ -48,7 +49,7 @@ EventJoinButton = React.createClass
                     ref: "part_popup"
                     source: @refs.participants
                     Participants
-                        participants: @props.event.participants
+                        participants: @props.participants
                 )
 
             if @props.user
@@ -88,7 +89,7 @@ EventViewPage = React.createClass
             div {className: "row"},
                 div {className: "col-md-12 text-right h-pr-0"},
                     EventJoinButton
-                        event: @props.event
+                        participants: @props.participants
                         user: @props.user
                         onJoin: @props.onJoinEvent
                         onUnjoin: @props.onUnjoinEvent

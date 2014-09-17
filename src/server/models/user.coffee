@@ -9,4 +9,13 @@ userSchema = Schema
 
 User = mongoose.model("User", userSchema)
 
-module.exports = User
+
+userView = (user) ->
+    {
+        id: user._id
+        name: user.googleProfile._json.name
+        picture50: "#{user.googleProfile._json.picture}?sz=50"
+        link: user.googleProfile._json.link
+    }
+
+module.exports = {User, userView}

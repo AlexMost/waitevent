@@ -1,6 +1,6 @@
 passport = require 'passport'
 GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
-User = require './models/user'
+{User} = require './models/user'
 {get_config} = require './config'
 
 
