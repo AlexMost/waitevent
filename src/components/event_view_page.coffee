@@ -10,7 +10,7 @@ Participants = React.createClass
     render: ->
         div {className: "participants-container"},
             @props.participants.map (p) ->
-                div {className: "participant-item"},
+                div {className: "participant-item", key: p.id},
                     a {
                         className: "participant-link"
                         href: p.link

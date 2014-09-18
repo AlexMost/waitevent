@@ -1,6 +1,6 @@
 React = require 'react'
 {div, h3, p} = React.DOM
-
+{has_parent} = require './utils'
 
 Popover = React.createClass
     displayName: "Popover"
@@ -10,9 +10,11 @@ Popover = React.createClass
         top: 0
         left: 0
 
-    isOutside: (ev) -> $(@getDOMNode()).has(ev.target).length
-
-    checkIfClose: (ev) -> @hide() if @isOutside ev
+    checkIfClose: (ev) ->
+        isOutside = ! has_parent(@getDOMNode(), ev.target)
+        isOutsideSource = ! has_parent(
+            @props.source().getDOMNode(), ev.target)
+        @hide() if isOutside and isOutsideSource
 
     componentDidUpdate: ->
         if @state.visible
