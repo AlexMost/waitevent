@@ -1,5 +1,5 @@
 React = require 'react'
-{div, h1, a, form, script, input} = React.DOM
+{div, h1, a, form, script, input, script} = React.DOM
 PageBase = require './portlets/base'
 {HorizontalFormInputText, HorizontalFormTextArea,
 HorizontalFormSubmit} = require './portlets/form'
@@ -60,9 +60,21 @@ CreateEventPage = React.createClass
                     key: "description"
                     label: "Description"
                     name: "description"
+                    rows: 10
                     value: @props.formData.description
                     error: @props.errors.description?.msg
                     placeholder: "Enter some event description"
+
+                script
+                    dangerouslySetInnerHTML:
+                        __html: """
+                        window.queue.push(function(){
+                            $(function() {
+                                $('#descriptionid').wysihtml5()
+                            
+                            });
+                        });
+                        """
 
                 DateTimePicker
                     key: "datetimepicker"

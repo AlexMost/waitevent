@@ -106,7 +106,8 @@ EventViewPage = React.createClass
                 div {className: "col-md-2"}
                 
             div {className: "text-center event-description"},
-                p {}, @props.event.description
+                p {dangerouslySetInnerHTML: {
+                    __html: @props.event.description}}
 
 
 module.exports = EventViewPage

@@ -40,7 +40,10 @@ exports.create_event_get = (req, res) ->
         res
         CreateEventPage
         {user: req.user}
-        {initScript: '/js/create_event_page.js'}
+        {
+            initScript: '/js/create_event_page.js'
+            css: '/css/pages/create_event.css'
+        }
     )
 
 
@@ -56,7 +59,10 @@ exports.create_event_post = (req, res) ->
                 errors: errors or {}
                 formData: req.body
             }
-            {initScript: '/js/create_event_page.js'}
+            {
+                initScript: '/js/create_event_page.js'
+                css: '/css/pages/create_event.css'
+            }
         )
     else
         newEvent = new UserEvent
@@ -79,7 +85,10 @@ exports.edit_event_get = (req, res) ->
             res
             CreateEventPage
             {edit: true, user: req.user, formData: event}
-            {initScript: '/js/create_event_page.js'}
+            {
+                initScript: '/js/create_event_page.js'
+                css: '/css/pages/create_event.css'
+            }
         )
 
 
@@ -99,7 +108,10 @@ exports.edit_event_post = (req, res) ->
                     user: req.user
                     errors: errors or {}
                     formData: req.body
-                {initScript: '/js/create_event_page.js'}
+                {
+                    initScript: '/js/create_event_page.js'
+                    css: '/css/pages/create_event.css'
+                }
             )
         else
             event.title = req.body.title

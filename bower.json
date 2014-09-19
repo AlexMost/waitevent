@@ -16,6 +16,7 @@
   ],
   "dependencies": {
     "eonasdan-bootstrap-datetimepicker": "~3.1.1",
-    "react": "~0.11.1"
+    "react": "~0.11.1",
+    "bootstrap3-wysihtml5-bower": "~0.3.3"
   }
 }

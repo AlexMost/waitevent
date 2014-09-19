@@ -40,10 +40,10 @@ exports.HorizontalFormTextArea = function(args) {
 					id={args.key + "id"}
 					className="form-control" 
 					placeholder={args.placeholder}
-                    name={args.name}
-					rows="3"
-                    defaultValue={args.value || ""}
-                    >
+          name={args.name}
+					rows={args.rows || 3}
+          defaultValue={args.value || ""}
+        >
 				</textarea>
                 <span className="help-block text-right">{args.error || ""}</span>
 			</div>

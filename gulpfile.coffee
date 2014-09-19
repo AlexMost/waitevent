@@ -65,6 +65,13 @@ gulp.task 'welcome_page_build', ["default"], ->
         .pipe(gulp.dest('./public/js'))
 
 
+gulp.task 'create_event_page_vendor', ["create_event_page_build"], ->
+    gulp.src([
+        './bower_components/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.all.js'
+        './public/js/create_event_page.js'])
+        .pipe(concat('create_event_page.js'))
+        .pipe(gulp.dest('./public/js'))
+
 gulp.task 'create_event_page_build', ["default"], ->
     gulp.src('./build/client/create_event_page.js', {read: false})
         .pipe(browserify(browserify_common_config))
@@ -94,12 +101,20 @@ gulp.task 'styles', ->
         .pipe(stylus())
         .pipe(gulp.dest('./public/css/pages/'))
 
+gulp.task 'create_event_styles', ['styles'], ->
+    gulp.src([
+        './public/css/pages/create_event.css'
+        './bower_components/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.css'        
+        ])
+        .pipe(concat('create_event.css'))
+        .pipe(gulp.dest('./public/css/pages'))
 
 gulp.task 'csbuild', [
     'styles'
     'jsx'
     'welcome_page_build'
-    'create_event_page_build'
+    'create_event_page_vendor'
+    'create_event_styles'
     'event_view_page_build'
     'my_events_list_page_build'
 ]
