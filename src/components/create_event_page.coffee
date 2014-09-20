@@ -1,8 +1,9 @@
 React = require 'react'
-{div, h1, a, form, script, input} = React.DOM
+{div, h1, a, form, script, input, button, span} = React.DOM
 PageBase = require './portlets/base'
+AddLink = require './portlets/add_link'
 {HorizontalFormInputText, HorizontalFormTextArea,
-HorizontalFormSubmit} = require './portlets/form'
+HorizontalFormSubmit, HorizontalFormCustomField} = require './portlets/form'
 {DateTimePicker} = require './portlets/datetime_picker'
 
 
@@ -55,6 +56,14 @@ CreateEventPage = React.createClass
                     value: @props.formData.title
                     error: @props.errors.title?.msg
                     placeholder: "Enter your event title"
+
+                HorizontalFormCustomField
+                    key: "links"
+                    label: "Event links"
+                    AddLink(
+                        links: @props.formData.links
+                        name: "links"
+                    )
 
                 HorizontalFormTextArea
                     key: "description"

@@ -10,6 +10,11 @@ EVENT_STATUSES =
     HIDDEN: 4
 
 
+eventLinkSchema = Schema
+    text: String
+    url: String
+
+
 eventSchema = Schema
     title: String
     description: String
@@ -18,6 +23,7 @@ eventSchema = Schema
     userId: {type: ObjectId, ref: "User"}
     status: {type: Number, default: EVENT_STATUSES.ACTIVE}
     participants: [{type: ObjectId, ref: "User"}]
+    links: [eventLinkSchema]
 
 
 UserEvent = mongoose.model("UserEvent", eventSchema)

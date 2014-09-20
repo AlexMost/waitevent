@@ -40,7 +40,10 @@ exports.create_event_get = (req, res) ->
         res
         CreateEventPage
         {user: req.user}
-        {initScript: '/js/create_event_page.js'}
+        {
+            initScript: '/js/create_event_page.js',
+            css: '/css/pages/create_event.css'
+        }
     )
 
 
@@ -56,7 +59,10 @@ exports.create_event_post = (req, res) ->
                 errors: errors or {}
                 formData: req.body
             }
-            {initScript: '/js/create_event_page.js'}
+            {
+                initScript: '/js/create_event_page.js',
+                css: '/css/pages/create_event.css'
+            }
         )
     else
         newEvent = new UserEvent
@@ -64,6 +70,10 @@ exports.create_event_post = (req, res) ->
             description: req.body.description
             deadLine: req.body.deadLine
             userId: req.user._id
+            links: if req.body.links
+                JSON.parse req.body.links
+            else
+                []
 
         newEvent.participants.push req.user
         newEvent.save (err, event) ->
@@ -79,7 +89,10 @@ exports.edit_event_get = (req, res) ->
             res
             CreateEventPage
             {edit: true, user: req.user, formData: event}
-            {initScript: '/js/create_event_page.js'}
+            {
+                initScript: '/js/create_event_page.js',
+                css: '/css/pages/create_event.css'
+            }
         )
 
 
@@ -99,12 +112,20 @@ exports.edit_event_post = (req, res) ->
                     user: req.user
                     errors: errors or {}
                     formData: req.body
-                {initScript: '/js/create_event_page.js'}
+                {
+                    initScript: '/js/create_event_page.js',
+                    css: '/css/pages/create_event.css'
+                }
             )
         else
             event.title = req.body.title
             event.description = req.body.description
             event.deadLine = req.body.deadLine
+            event.links = if req.body.links
+                JSON.parse req.body.links
+            else
+                []
+
 
             event.save (err, event) ->
                 # TODO: handle error

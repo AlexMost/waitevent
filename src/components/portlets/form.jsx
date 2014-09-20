@@ -62,4 +62,15 @@ exports.HorizontalFormSubmit = function(args) {
 	)
 };
 
+exports.HorizontalFormCustomField = function(args, content) {
+  return (
+    <div className="form-group" key={args.key} >
+        <label htmlFor={args.key + "_id"} className="col-sm-2 control-label">{args.label}</label>
+        <div className="col-sm-10">
+          {content}
+        </div>
+      </div>
+  )
+}
+
 

@@ -7,6 +7,10 @@ var Modal = React.createClass({
 	getDefaultProps: function(){
 		return {
 			onConfirm: function(){},
+			onCancelConfirm: function(){},
+			confirmPredicate: function(){
+				return true
+			},
 			skipButtons: false,
 			width: "500px"
 		}
@@ -17,9 +21,13 @@ var Modal = React.createClass({
 	hide: function(){
 		$(this.getDOMNode()).modal('hide');	
 	},
-	confirm: function(){
-		this.props.onConfirm()
-		this.hide()
+	confirm: function(ev){
+		if (this.props.confirmPredicate()){
+			this.props.onConfirm(ev)
+			this.hide()
+		} else {
+			this.props.onCancelConfirm()
+		}
 	},
 	render: function(){
 		footer = null
