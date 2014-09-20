@@ -11,8 +11,21 @@ AddLinkForm = React.createClass
         url: @props.url
         link_text_empty: false
         url_empty: false
+        edit: false
 
     show: -> @refs.link_modal.show()
+
+    add: ->
+        @setState {edit: false}
+        @show()
+
+    edit: (key, link) ->
+        @setState
+            link_text: link.text
+            url: link.url
+            key: key
+            edit: true
+        @show()
 
     render: ->
         link_text_cls = if @state.link_text_empty
@@ -35,8 +48,19 @@ AddLinkForm = React.createClass
                     link_text_empty: false
                     url_empty: false
 
-                @props.onAddLink(
-                    {text: @state.link_text, url: @state.url})
+                unless @state.edit
+                    @props.onAddLink(
+                        {
+                            text: @state.link_text
+                            url: @state.url
+                        }
+                    )
+                else
+                    @props.onEdit(
+                        @state.key
+                        text: @state.link_text
+                        url: @state.url
+                    )
 
             confirmPredicate: =>
                 @setState
@@ -72,6 +96,26 @@ AddLinkForm = React.createClass
         )
 
 
+LinkItem = React.createClass
+    displayName: "LinkItem"
+
+    render: ->
+        div {},
+            span {className: "h-mr-5 "}, @props.text
+            a {href: @props.url}, @props.url
+            span
+                className:
+                    "h-ml-5 h-pointer glyphicon glyphicon-pencil toolbar-icon"
+                type: "button"
+                onClick: @props.onEdit
+            span
+                className:
+                    "h-ml-5 h-pointer glyphicon glyphicon-remove toolbar-icon"
+                type: "button"
+                onClick: @props.onDelete
+
+
+
 AddLink = React.createClass
     displayName: "AddLink"
 
@@ -82,16 +126,42 @@ AddLink = React.createClass
     getInitialState: ->
         links: @props.links
 
+    deleteLink: (index) ->
+        links = []
+        for l, k in @state.links
+            unless k is index
+                links.push l
+        @setState {links}
+
+    editLink: (index, link) ->
+        links = []
+        for l, k in @state.links
+            if k is index
+                links.push link
+            else
+                links.push l
+        @setState {links}
+
+
     render: ->
         div {},
             (for link, key in @state.links
-                div {key},
-                    span {className: "h-mr-5 "}, link.text
-                    a {href: link.url}, link.url)
+                do (link, key) =>
+                    LinkItem(
+                        key: key
+                        url: link.url
+                        text: link.text
+                        onDelete: =>
+                            @deleteLink key
+                        onEdit: =>
+                            @refs.link_form.edit key, link
+                    )
+            )
+
             button
                 type: "button"
                 className: "btn btn-success btn-xs"
-                onClick: => @refs.link_form.show()
+                onClick: => @refs.link_form.add()
                 "+ link"
 
             AddLinkForm
@@ -100,10 +170,12 @@ AddLink = React.createClass
                     links = @state.links
                     links.push link
                     @setState {links}
+                onEdit: @editLink
 
             input
                 type: "hidden"
                 value: JSON.stringify(@state.links)
                 name: @props.name
+
 
 module.exports = AddLink
