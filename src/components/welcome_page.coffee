@@ -1,6 +1,7 @@
 React = require 'react'
 {div, h1, a, button} = React.DOM
 PageBase = require './portlets/base'
+{AuthPopup} = require './portlets/auth_popup'
 
 
 WelcomePage = React.createClass
@@ -25,16 +26,31 @@ WelcomePage = React.createClass
                     )
                 )
             )
-            (div {className: "row"},
-                (div {className: "col-md-12 text-center"},
-                    (a
-                        href: create_link_url
-                        className: "btn btn-success btn-lg"
-                        style: {"margin-top": "5%"}
-                        "Create"
+            if @props.user
+                (div {className: "row"},
+                    (div {className: "col-md-12 text-center"},
+                        (a
+                            href: "/create_event"
+                            className: "btn btn-success btn-lg"
+                            style: {"margin-top": "5%"}
+                            "Create"
+                        )
                     )
                 )
-            )
+            else
+                (div {className: "row"},
+                    (div {className: "col-md-12 text-center"},
+                        (button
+                            onClick: => @refs.auth.show()
+                            className: "btn btn-success btn-lg"
+                            style: {"margin-top": "5%"}
+                            "Create"
+                        )
+                    )
+                )
+            AuthPopup
+                ref: "auth"
+                callbackUrl: "/create_event"
         )
 
 
