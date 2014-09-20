@@ -113,10 +113,20 @@ EventViewPage = React.createClass
                     FlipClock
                         target_date: @props.event.deadLine
                 div {className: "col-md-2"}
-                
-            div {className: "text-center event-description"},
-                p {}, @props.event.description
+            
+            if @props.event.description
+                div {className: "text-center event-description"},
+                    p {}, @props.event.description
 
+            if @props.event.links?.length
+                div {className: "text-center event-links"},
+                    (for l, i in @props.event.links
+                        do (l, i) ->
+                            p {key: i},
+                                span {}, l.text
+                                span {}, " - "
+                                a {href: l.url}, l.url
+                    )
             AuthPopup
                 ref: "auth"
                 callbackUrl: @props.currentUrl

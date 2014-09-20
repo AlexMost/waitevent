@@ -13,10 +13,14 @@ AddLinkForm = React.createClass
         url_empty: false
         edit: false
 
-    show: -> @refs.link_modal.show()
+    show: ->
+        @refs.link_modal.show()
 
     add: ->
-        @setState {edit: false}
+        @setState
+            link_text: ""
+            url: ""
+            edit: false
         @show()
 
     edit: (key, link) ->
@@ -43,8 +47,6 @@ AddLinkForm = React.createClass
             title: "Link info:"
             onConfirm: (ev) =>
                 @setState
-                    link_text: ""
-                    url: ""
                     link_text_empty: false
                     url_empty: false
 
