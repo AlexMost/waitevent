@@ -4,6 +4,7 @@ PageBase = require './portlets/base'
 CountDown = require './portlets/countdown'
 FlipClock = require './portlets/flipclock'
 Popover = require './portlets/popover'
+{AuthPopup} = require './portlets/auth_popup'
 
 Participants = React.createClass
     displayName: "Participants"
@@ -66,9 +67,9 @@ EventJoinButton = React.createClass
                         span {className: "glyphicon glyphicon-plus"}
                         span {className: "join-text"}, "join"
             else
-                a
+                button
                     className: "h-ml-5 btn btn-success btn-xs"
-                    href: "/auth/google?r=#{@props.currentUrl}"
+                    onClick: @props.onAuth
                     span {className: "glyphicon glyphicon-plus"}
                     span {className: "join-text"}, "join"
 
@@ -101,7 +102,7 @@ EventViewPage = React.createClass
                         user: @props.user
                         onJoin: @props.onJoinEvent
                         onUnjoin: @props.onUnjoinEvent
-                        currentUrl: @props.currentUrl
+                        onAuth: => @refs.auth.show()
 
             div
                 className: "well row text-center"
@@ -115,6 +116,10 @@ EventViewPage = React.createClass
                 
             div {className: "text-center event-description"},
                 p {}, @props.event.description
+
+            AuthPopup
+                ref: "auth"
+                callbackUrl: @props.currentUrl
 
 
 module.exports = EventViewPage

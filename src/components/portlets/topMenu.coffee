@@ -1,5 +1,6 @@
 React = require 'react'
-{div, a, ul, li, span} = React.DOM
+{div, a, ul, li, span, button} = React.DOM
+{AuthPopup} = require './auth_popup'
 
 
 TopMenu = React.createClass
@@ -36,9 +37,18 @@ TopMenu = React.createClass
         )
 
     renderUnAuth: ->
-        (div {className: "text-right"},
-            (a {href: "/auth/google?r=/create_event"},
-                "Authorize and create event"))
+        div {className: "text-right"},
+            ul {className: "list-inline top-menu"},
+                li {className: "top-menu-item"},
+                    button
+                        className: "btn btn-success btn-xs"
+                        onClick: => @refs.auth.show()
+                        "Create event"
+
+            AuthPopup
+                ref: "auth"
+                callbackUrl: "/create_event"
+
 
     render: ->
         if @props.user
