@@ -123,10 +123,12 @@ MyEventsEventsListPage = React.createClass
                     new EventsGroup
                         events: @props.events
                         onDelete: (event) =>
-                            @setState {delItem: event}, -> $("#myModal").modal()
+                            @setState {delItem: event}, =>
+                                @refs.delete_modal.show()
 
                     Modal(
                         title: "Confirm delete"
+                        ref: "delete_modal"
                         onConfirm: =>
                             $.ajax(
                                 type: "POST"
@@ -137,7 +139,6 @@ MyEventsEventsListPage = React.createClass
                                         ev._id != @state.delItem._id
                                     @setProps {events: newEvents}
                             )
-                            $("#myModal").modal('hide')
 
                         div {},
                             "Delete item #{@state.delItem.title}?"
