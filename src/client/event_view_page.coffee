@@ -6,21 +6,30 @@ transport = require './transport'
 
 
 init = ->
+    componentData.currentUrl = document.URL
+    
     componentData.onJoinEvent = (event) ->
         transport.join_event component.props.event, (err, result) ->
-            unless err
-                component.setProps {
-                    event: result.event
-                    participants: result.participants
-                }
+            return if err
+
+            newProps =
+                event: result.event
+
+            if result.participants
+                newProps.participants = result.participants
+
+            component.setProps newProps
 
     componentData.onUnjoinEvent = (event) ->
         transport.unjoin_event component.props.event, (err, result) ->
-            unless err
-                component.setProps {
-                    event: result.event
-                    participants: result.participants
-                }
+            return if err
+            newProps =
+                event: result.event
+
+            if result.participants
+                newProps.participants = result.participants
+
+            component.setProps newProps
 
     component = React.renderComponent(
         new EventViewPage componentData

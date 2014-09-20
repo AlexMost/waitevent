@@ -30,6 +30,7 @@ EventJoinButton = React.createClass
 
     getDefaultProps: ->
         participants: []
+        currentUrl: ""
 
     render: ->
         partIds = @props.participants.map (p) -> p.id
@@ -64,6 +65,12 @@ EventJoinButton = React.createClass
                         onClick: @props.onJoin
                         span {className: "glyphicon glyphicon-plus"}
                         span {className: "join-text"}, "join"
+            else
+                a
+                    className: "h-ml-5 btn btn-success btn-xs"
+                    href: "/auth/google?r=#{@props.currentUrl}"
+                    span {className: "glyphicon glyphicon-plus"}
+                    span {className: "join-text"}, "join"
 
 
 EventViewPage = React.createClass
@@ -94,6 +101,7 @@ EventViewPage = React.createClass
                         user: @props.user
                         onJoin: @props.onJoinEvent
                         onUnjoin: @props.onUnjoinEvent
+                        currentUrl: @props.currentUrl
 
             div
                 className: "well row text-center"

@@ -5,6 +5,8 @@ UserEvent = require '../models/userEvent'
 {User, userView} = require '../models/user'
 {reactRender} = require '../react_render'
 Q = require 'q'
+{join_user_to_event,
+get_event_view_context} = require '../bl/bl_event'
 
 
 validate_ev_from_req = (req) ->
@@ -14,16 +16,14 @@ validate_ev_from_req = (req) ->
 
 
 exports.event_view_get = (req, res) ->
-    p_userEvent = UserEvent.findOne({_id: req.params.eventId}).exec()
-    p_participants = p_userEvent.then(
-        (event) -> User.find({_id: {$in: event.participants}}).exec())
-    
-    Q.spread([p_userEvent, p_participants], (user_event, raw_participants) ->
-        participants = raw_participants.map userView
+    user = req.user
+    eventId = req.params.eventId
+        
+    (get_event_view_context user, eventId).then((data) ->
         reactRender(
             res
             EventViewPage
-            {user: req.user, event: user_event, participants}
+            data
             {
                 initScript: '/js/event_view_page.js',
                 css: '/css/pages/event_view.css'
@@ -125,25 +125,17 @@ exports.join_event = (req, res) ->
     user = req.user
     eventId = req.params.eventId
 
-    UserEvent.findOne {_id: eventId}, (err, event) ->
-        if user._id.toString() in (event.participants.map (p) -> p.toString())
-            return (res.send 403)
-
-        event.participants.push user
-        user.joinedEvents.push event
-
-        User.find {_id: {$in: event.participants}}, (err, raw_participants) ->
-            participants = raw_participants.map userView
-
-            event.save (err, event) ->
-                user.save (err, user) ->
-                    res.json(
-                        {
-                            status: "ok"
-                            action: "joined"
-                            event
-                            participants
-                        })
+    join_user_to_event(user, eventId).then(
+        ({user, event, participants}) ->
+            return res.json(
+                status: "ok"
+                action: "joined"
+                event: event
+                participants: participants
+            )
+    ).fail (error) ->
+        console.log error.stack
+        res.send(403).end()
 
 
 exports.unjoin_event = (req, res) ->
