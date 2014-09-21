@@ -43,7 +43,7 @@ TopMenu = React.createClass
                     button
                         className: "btn btn-success btn-xs"
                         onClick: => @refs.auth.show()
-                        "Create event"
+                        "Sign in"
 
             AuthPopup
                 ref: "auth"

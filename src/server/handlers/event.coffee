@@ -27,6 +27,9 @@ exports.event_view_get = (req, res) ->
             {
                 initScript: '/js/event_view_page.js',
                 css: '/css/pages/event_view.css'
+                title: """
+                    '#{data.event.title}'.
+                    Countdown for '#{data.event.title}' event"""
             }
         )
     ).fail((error) ->
@@ -41,8 +44,9 @@ exports.create_event_get = (req, res) ->
         CreateEventPage
         {user: req.user}
         {
-            initScript: '/js/create_event_page.js',
+            initScript: '/js/create_event_page.js'
             css: '/css/pages/create_event.css'
+            title: "Create event"
         }
     )
 
@@ -60,8 +64,9 @@ exports.create_event_post = (req, res) ->
                 formData: req.body
             }
             {
-                initScript: '/js/create_event_page.js',
+                initScript: '/js/create_event_page.js'
                 css: '/css/pages/create_event.css'
+                title: "Create event"
             }
         )
     else
@@ -93,8 +98,9 @@ exports.edit_event_get = (req, res) ->
             CreateEventPage
             {edit: true, user: req.user, formData: event}
             {
-                initScript: '/js/create_event_page.js',
+                initScript: '/js/create_event_page.js'
                 css: '/css/pages/create_event.css'
+                title: "Edit event '#{event.title}'"
             }
         )
 
@@ -118,8 +124,9 @@ exports.edit_event_post = (req, res) ->
                     formData: req.body
                 }
                 {
-                    initScript: '/js/create_event_page.js',
+                    initScript: '/js/create_event_page.js'
                     css: '/css/pages/create_event.css'
+                    title: "Edit event '#{event.title}'"
                 }
             )
         else
