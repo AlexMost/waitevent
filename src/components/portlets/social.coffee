@@ -40,7 +40,6 @@ facebook_button = ->
 
 <span
     class="fb-like"
-    data-href="https://developers.facebook.com/docs/plugins/"
     data-layout="button_count"
     data-action="like"
     data-show-faces="true"
