@@ -126,7 +126,12 @@ AddLink = React.createClass
         name: "links"
 
     getInitialState: ->
-        links: @props.links
+        links = if typeof @props.links is "string"
+            JSON.parse @props.links
+        else
+            @props.links
+
+        links: links
 
     deleteLink: (index) ->
         links = []

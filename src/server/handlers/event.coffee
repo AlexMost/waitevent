@@ -108,10 +108,12 @@ exports.edit_event_post = (req, res) ->
             reactRender(
                 res
                 CreateEventPage
+                {
                     edit: true
                     user: req.user
                     errors: errors or {}
                     formData: req.body
+                }
                 {
                     initScript: '/js/create_event_page.js',
                     css: '/css/pages/create_event.css'

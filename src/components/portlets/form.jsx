@@ -10,8 +10,8 @@ exports.HorizontalFormInputText = function(args) {
 
 	return (
   		<div className={groupCls} key={args.key} >
-    		<label htmlFor={args.key + "id"} className="col-sm-2 control-label">{args.label}</label>
-    		<div className="col-sm-10">
+    		<label htmlFor={args.key + "id"} className="col-sm-4 control-label">{args.label}</label>
+    		<div className="col-sm-4">
       		<input
       			id={args.key + "id"}
       			type={args.type || 'text'} 
@@ -34,14 +34,14 @@ exports.HorizontalFormTextArea = function(args) {
 
 	return (
 		<div className={groupCls} key={args.key} >
-    		<label htmlFor={args.key + "_id"} className="col-sm-2 control-label">{args.label}</label>
-    		<div className="col-sm-10">
+    		<label htmlFor={args.key + "_id"} className="col-sm-4 control-label">{args.label}</label>
+    		<div className="col-sm-4">
 				<textarea
 					id={args.key + "id"}
 					className="form-control" 
 					placeholder={args.placeholder}
                     name={args.name}
-					rows="3"
+					rows="6"
                     defaultValue={args.value || ""}
                     >
 				</textarea>
@@ -55,8 +55,8 @@ exports.HorizontalFormTextArea = function(args) {
 exports.HorizontalFormSubmit = function(args) {
 	return (
 		<div className="form-group" key={args.key}>
-    		<div className="col-sm-offset-2 col-sm-10">
-      			<button type="submit" className="btn btn-primary">{args.text}</button>
+    		<div className="col-sm-12 text-center">
+      			<button type="submit" className="btn btn-primary btn-lg">{args.text}</button>
     		</div>
   		</div>
 	)
@@ -65,8 +65,8 @@ exports.HorizontalFormSubmit = function(args) {
 exports.HorizontalFormCustomField = function(args, content) {
   return (
     <div className="form-group" key={args.key} >
-        <label htmlFor={args.key + "_id"} className="col-sm-2 control-label">{args.label}</label>
-        <div className="col-sm-10">
+        <label htmlFor={args.key + "_id"} className="col-sm-4 control-label">{args.label}</label>
+        <div className="col-sm-4">
           {content}
         </div>
       </div>

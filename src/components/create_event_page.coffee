@@ -1,5 +1,5 @@
 React = require 'react'
-{div, h1, a, form, script, input, button, span} = React.DOM
+{div, h1, h2, a, form, script, input, button, span} = React.DOM
 PageBase = require './portlets/base'
 AddLink = require './portlets/add_link'
 {HorizontalFormInputText, HorizontalFormTextArea,
@@ -39,56 +39,62 @@ CreateEventPage = React.createClass
             "Create event"
 
         PageBase {user: @props.user},
-            h1 {className: "text-center"}, "Enter some event data:"
+            h1
+                className: "text-center"
+                style: {"margin-bottom": "5%"}
+                "Enter some event data:"
 
-            form {
+            form
                 ref: "event_form"
-                className: "form-horizontal", role: "form", method: "POST",
+                className: "form-horizontal"
+                role: "form"
+                method: "POST"
                 onSubmit: =>
                     jdtp = $ "#datetimepicker_id"
                     jdtp.val new Date(jdtp.val()).toString()
                     @refs.event_form.getDOMNode().submit()
-                },
-                HorizontalFormInputText
-                    key: "titleinput"
-                    label: "Title"
-                    name: "title"
-                    value: @props.formData.title
-                    error: @props.errors.title?.msg
-                    placeholder: "Enter your event title"
+                div {className: "panel panel-default box-shadow"},
 
-                HorizontalFormCustomField
-                    key: "links"
-                    label: "Event links"
-                    AddLink(
-                        links: @props.formData.links
-                        name: "links"
-                    )
+                    div {className: "panel-heading"},
+                        h2 {className: "panel-title"}, "Event info"
 
-                HorizontalFormTextArea
-                    key: "description"
-                    label: "Description"
-                    name: "description"
-                    value: @props.formData.description
-                    error: @props.errors.description?.msg
-                    placeholder: "Enter some event description"
+                    div {className: "panel-body h-mt-20"},
 
-                DateTimePicker
-                    key: "datetimepicker"
-                    label: "Date time"
-                    name: "deadLine"
-                    value: deadLine
-                    error: @props.errors.deadLine?.msg
-                    placeholder: "Select event date time"
+                        HorizontalFormInputText
+                            key: "titleinput"
+                            label: "Title"
+                            name: "title"
+                            value: @props.formData.title
+                            error: @props.errors.title?.msg
+                            placeholder: "Enter your event title"
+
+                        DateTimePicker
+                            key: "datetimepicker"
+                            label: "Date time"
+                            name: "deadLine"
+                            value: deadLine
+                            error: @props.errors.deadLine?.msg
+                            placeholder: "Select event date time"
+
+                        HorizontalFormTextArea
+                            key: "description"
+                            label: "Description"
+                            name: "description"
+                            value: @props.formData.description
+                            error: @props.errors.description?.msg
+                            placeholder: "Enter some event description"
+
+                        HorizontalFormCustomField
+                            key: "links"
+                            label: "Event links"
+                            AddLink(
+                                links: @props.formData.links
+                                name: "links"
+                            )
 
                 HorizontalFormSubmit
                     key: "submitbtn"
                     text: submitButtonText
-
-                input
-                    type: "hidden"
-                    name: "timezoneOffset"
-                    value: (new Date(Date.now())).getTimezoneOffset()
 
 
 module.exports = CreateEventPage

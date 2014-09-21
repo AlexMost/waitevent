@@ -7,10 +7,10 @@ exports.DateTimePicker = (args) ->
         className: "form-group #{'has-error' if args.error}"
         label
             htmlFor: args.key + "_id"
-            className: "col-sm-2 control-label"
+            className: "col-sm-4 control-label"
             args.label
         div
-            className: "col-sm-10"
+            className: "col-sm-3"
             div
                 id:"datetimepicker1"
                 className: "input-group date"
