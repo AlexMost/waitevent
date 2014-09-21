@@ -24,6 +24,8 @@ eventSchema = Schema
     status: {type: Number, default: EVENT_STATUSES.ACTIVE}
     participants: [{type: ObjectId, ref: "User"}]
     links: [eventLinkSchema]
+    shareTwitter: {type: Boolean, default: false}
+    shareFacebook: {type: Boolean, default: false}
 
 
 UserEvent = mongoose.model("UserEvent", eventSchema)

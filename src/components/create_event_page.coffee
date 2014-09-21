@@ -5,6 +5,7 @@ AddLink = require './portlets/add_link'
 {HorizontalFormInputText, HorizontalFormTextArea,
 HorizontalFormSubmit, HorizontalFormCustomField} = require './portlets/form'
 {DateTimePicker} = require './portlets/datetime_picker'
+{SocialShareFormField} = require './portlets/social_form_field'
 
 
 CreateEventPage = React.createClass
@@ -90,6 +91,14 @@ CreateEventPage = React.createClass
                             AddLink(
                                 links: @props.formData.links
                                 name: "links"
+                            )
+
+                        HorizontalFormCustomField
+                            key: "social"
+                            label: "Social share buttons"
+                            SocialShareFormField(
+                                shareTwitter: @props.formData.shareTwitter
+                                shareFacebook: @props.formData.shareFacebook
                             )
 
                 HorizontalFormSubmit

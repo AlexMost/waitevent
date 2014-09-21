@@ -74,6 +74,8 @@ exports.create_event_post = (req, res) ->
                 JSON.parse req.body.links
             else
                 []
+            shareTwitter: !! req.body.shareTwitter
+            shareFacebook: !! req.body.shareFacebook
 
         newEvent.participants.push req.user
         newEvent.save (err, event) ->
@@ -127,7 +129,8 @@ exports.edit_event_post = (req, res) ->
                 JSON.parse req.body.links
             else
                 []
-
+            event.shareTwitter = !! req.body.shareTwitter
+            event.shareFacebook = !! req.body.shareFacebook
 
             event.save (err, event) ->
                 # TODO: handle error
