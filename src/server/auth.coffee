@@ -12,8 +12,6 @@ init_auth = ->
     else
         "#{config.hostname}/auth/google/return"
     
-    console.log callbackURL
-    
     passport.use(
         (new GoogleStrategy
             clientID: config.googleClientId
@@ -35,12 +33,10 @@ init_auth = ->
     )
 
 
-    passport.serializeUser (user, done) ->
-        done(null, user._id)
+    passport.serializeUser (user, done) -> done(null, user._id)
 
 
-    passport.deserializeUser (id, done) ->
-        User.findOne {_id: id}, done
+    passport.deserializeUser (id, done) -> User.findOne {_id: id}, done
 
 
 is_logged_in = (req, res, next) ->

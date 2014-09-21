@@ -5,6 +5,7 @@ CountDown = require './portlets/countdown'
 FlipClock = require './portlets/flipclock'
 Popover = require './portlets/popover'
 {AuthPopup} = require './portlets/auth_popup'
+{TwitterButton} = require './portlets/social'
 
 Participants = React.createClass
     displayName: "Participants"
@@ -84,52 +85,59 @@ EventViewPage = React.createClass
         onUnjoinEvent: React.PropTypes.func
 
     render: ->
-        PageBase {user: @props.user},
+        div {},
+            PageBase {user: @props.user},
 
-            h1
-                className: "text-center event-page-header"
-                style:
-                    "font-size": "45px"
-                    "font-weight": "bold"
-                    "margin-bottom": "10%"
-                    "margin-top": "10%"
-                @props.event.title
+                h1
+                    className: "text-center event-page-header"
+                    style:
+                        "font-size": "45px"
+                        "font-weight": "bold"
+                        "margin-bottom": "10%"
+                        "margin-top": "10%"
+                    @props.event.title
 
-            div {className: "row"},
-                div {className: "col-md-12 text-right h-pr-0"},
-                    EventJoinButton
-                        participants: @props.participants
-                        user: @props.user
-                        onJoin: @props.onJoinEvent
-                        onUnjoin: @props.onUnjoinEvent
-                        onAuth: => @refs.auth.show()
+                div {className: "row"},
+                    div {className: "col-md-12 text-right h-pr-0"},
+                        EventJoinButton
+                            participants: @props.participants
+                            user: @props.user
+                            onJoin: @props.onJoinEvent
+                            onUnjoin: @props.onUnjoinEvent
+                            onAuth: => @refs.auth.show()
 
-            div
-                className: "well row text-center"
-                style: {"margin-bottom": "10%"}
+                div
+                    className: "well row text-center"
+                    style: {"margin-bottom": "10%"}
 
-                div {className: "col-md-2"}
-                div {className: "col-md-8"},
-                    FlipClock
-                        target_date: @props.event.deadLine
-                div {className: "col-md-2"}
-            
-            if @props.event.description
-                div {className: "text-center event-description"},
-                    p {}, @props.event.description
+                    div {className: "col-md-2"}
+                    div {className: "col-md-8"},
+                        FlipClock
+                            target_date: @props.event.deadLine
+                    div {className: "col-md-2"}
+                
+                if @props.event.description
+                    div {className: "text-center event-description"},
+                        p {}, @props.event.description
 
-            if @props.event.links?.length
-                div {className: "text-center event-links"},
-                    (for l, i in @props.event.links
-                        do (l, i) ->
-                            p {key: i},
-                                span {}, l.text
-                                span {}, " - "
-                                a {href: l.url}, l.url
-                    )
-            AuthPopup
-                ref: "auth"
-                callbackUrl: @props.currentUrl
+                if @props.event.links?.length
+                    div {className: "text-center event-links"},
+                        (for l, i in @props.event.links
+                            do (l, i) ->
+                                p {key: i},
+                                    span {}, l.text
+                                    span {}, " - "
+                                    a {href: l.url}, l.url
+                        )
+                AuthPopup
+                    ref: "auth"
+                    callbackUrl: @props.currentUrl
+
+            div {style: {"margin-bottom": "40px"}}
+
+            div {className: "text-center social-panel box-shadow"},
+                div {style: {"margin-top": "5px"}},
+                    TwitterButton()
 
 
 module.exports = EventViewPage
