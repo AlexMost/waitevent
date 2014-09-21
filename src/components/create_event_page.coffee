@@ -99,6 +99,7 @@ CreateEventPage = React.createClass
                             SocialShareFormField(
                                 shareTwitter: @props.formData.shareTwitter
                                 shareFacebook: @props.formData.shareFacebook
+                                shareGoogle: @props.formData.shareGoogle
                             )
 
                 HorizontalFormSubmit

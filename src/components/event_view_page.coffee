@@ -5,7 +5,8 @@ CountDown = require './portlets/countdown'
 FlipClock = require './portlets/flipclock'
 Popover = require './portlets/popover'
 {AuthPopup} = require './portlets/auth_popup'
-{TwitterButton, FacebookButton} = require './portlets/social'
+{TwitterButton, FacebookButton, GoogleButton} = require './portlets/social'
+
 
 Participants = React.createClass
     displayName: "Participants"
@@ -135,12 +136,18 @@ EventViewPage = React.createClass
 
             div {style: {"margin-bottom": "40px"}}
 
-            if @props.event.shareTwitter or @props.event.shareTwitter
-                div {className: "text-center social-panel box-shadow"},    
+            if (@props.event.shareTwitter or
+                    @props.event.shareFacebook or
+                    @props.event.shareGoogle)
+
+                div {className: "text-center social-panel box-shadow"},
+                    div {style: {width: "100%", height: "5px"}}, ""
                     if @props.event.shareTwitter
                         TwitterButton()
                     if @props.event.shareFacebook
                         FacebookButton()
+                    if @props.event.shareGoogle
+                        GoogleButton()
 
 
 module.exports = EventViewPage

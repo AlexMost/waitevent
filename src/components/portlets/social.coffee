@@ -22,7 +22,6 @@ TwitterButton = React.createClass
             style:
                 display: "inline-block"
                 width: "90px"
-                "padding-top": "5px"
             dangerouslySetInnerHTML:
                 __html: twitter_button()
 
@@ -34,7 +33,8 @@ facebook_button = ->
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
   js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&appId=342797702557873&version=v2.0";
+  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml= \
+  1&appId=342797702557873&version=v2.0";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 
@@ -52,9 +52,39 @@ FacebookButton = React.createClass
     displayName: "FacebookButton"
     render: ->
         span
-            style: {"margin-top": "-5px", display: "inline-block"}
+            style: {"vertical-align": "top", display: "inline-block"}
             dangerouslySetInnerHTML:
                 __html: facebook_button()
 
 
-module.exports = {TwitterButton, FacebookButton}
+google_button = ->
+    return """
+    <script type="text/javascript">
+  (function() {
+    var po = document.createElement('script');
+    po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js?onload=onLoadCallback';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<div
+    class="g-plusone"
+    data-size="medium"
+    data-width="130"></div>
+    """
+
+
+GoogleButton = React.createClass
+    displayName: "GoogleButton"
+    render: ->
+        span
+            style:
+                "vertical-align": "top"
+                display: "inline-block"
+                width: "120px"
+            dangerouslySetInnerHTML:
+                __html: google_button()
+
+
+module.exports = {TwitterButton, FacebookButton, GoogleButton}

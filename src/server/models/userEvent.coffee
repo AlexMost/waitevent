@@ -26,6 +26,7 @@ eventSchema = Schema
     links: [eventLinkSchema]
     shareTwitter: {type: Boolean, default: false}
     shareFacebook: {type: Boolean, default: false}
+    shareGoogle: {type: Boolean, default: false}
 
 
 UserEvent = mongoose.model("UserEvent", eventSchema)
