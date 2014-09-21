@@ -7,6 +7,7 @@ bodyParser = require 'body-parser'
 session = require 'express-session'
 RedisStore = (require 'connect-redis')(session)
 expressValidator = require 'express-validator'
+favicon = require 'serve-favicon'
 
 {init_db} = require './db'
 {init_auth, is_logged_in} = require './auth'
@@ -28,6 +29,7 @@ app.set 'views', __dirname
 app.set 'view engine', 'ejs'
 app.use express.static(path.resolve __dirname, '../../public')
 app.use express.static(path.resolve __dirname, '../../image')
+app.use favicon(path.resolve __dirname, '../../image/favicon.ico')
 app.use cookieParser()
 app.use bodyParser.json()
 app.use bodyParser.urlencoded()
