@@ -83,6 +83,12 @@ gulp.task 'my_events_list_page_build', ["default"], ->
         .pipe(gulp.dest('./public/js'))
 
 
+gulp.task 'joined_events_list_page_build', ["default"], ->
+    gulp.src('./build/client/joined_events_list_page.js', {read: false})
+        .pipe(browserify(browserify_common_config))
+        .pipe(gulp.dest('./public/js'))
+
+
 gulp.task 'jsx', ->
     gulp.src(SRC_JSX_PATH)
         .pipe(react())
@@ -102,6 +108,7 @@ gulp.task 'csbuild', [
     'create_event_page_build'
     'event_view_page_build'
     'my_events_list_page_build'
+    'joined_events_list_page_build'
 ]
 
 

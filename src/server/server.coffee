@@ -19,7 +19,7 @@ delete_event, event_view_get, join_event,
 unjoin_event} = require './handlers/event'
 
 {welcome_page_get} = require './handlers/welcome_page'
-{my_events_get} = require './handlers/events_list'
+{my_events_get, participated_events} = require './handlers/events_list'
 
 UserEvent = require './models/userEvent'
 config = get_config()
@@ -65,6 +65,7 @@ app.post '/join_event/:eventId', is_logged_in, join_event
 app.post '/unjoin_event/:eventId', is_logged_in, unjoin_event
 
 app.get '/my_events', is_logged_in, my_events_get
+app.get '/joined_events', is_logged_in, participated_events
 
 app.get('/auth/google',
     (req, res, next) ->

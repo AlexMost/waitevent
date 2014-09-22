@@ -33,7 +33,9 @@ exports.DateTimePicker = (args) ->
                     $(function() {
                         $('#datetimepicker1').datetimepicker(
                             {language: 'pt-BR'});
-                        $('#datetimepicker1').data('DateTimePicker').setDate(new Date("#{args.value}"));
+                        $('#datetimepicker1')
+                            .data('DateTimePicker')
+                            .setDate(new Date("#{args.value}"));
                     });
                 });
                 """}
