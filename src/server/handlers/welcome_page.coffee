@@ -7,5 +7,8 @@ exports.welcome_page_get = (req, res) ->
         res
         WelcomePage
         {user: req.user}
-        {initScript: '/js/welcome_page.js'}
+        {
+            initScript: '/js/welcome_page.js'
+            title: "wait-event.com"
+        }
     )

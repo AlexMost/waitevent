@@ -52,7 +52,8 @@ CreateEventPage = React.createClass
                 method: "POST"
                 onSubmit: =>
                     jdtp = $ "#datetimepicker_id"
-                    jdtp.val new Date(jdtp.val()).toString()
+                    $(@refs.deadLine.getDOMNode()).val(
+                        new Date(jdtp.val()).toString())
                     @refs.event_form.getDOMNode().submit()
                 div {className: "panel panel-default box-shadow"},
 
@@ -72,10 +73,16 @@ CreateEventPage = React.createClass
                         DateTimePicker
                             key: "datetimepicker"
                             label: "Date time"
-                            name: "deadLine"
+                            name: "deadLine_fake"
                             value: deadLine
                             error: @props.errors.deadLine?.msg
                             placeholder: "Select event date time"
+
+                        input
+                            ref: "deadLine"
+                            type: "hidden"
+                            name: "deadLine"
+                            defaultValue: deadLine
 
                         HorizontalFormTextArea
                             key: "description"

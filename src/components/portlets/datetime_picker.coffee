@@ -19,7 +19,6 @@ exports.DateTimePicker = (args) ->
                            type="text"
                            name="#{args.name}"
                            placeholder="#{args.placeholder or ''}"
-                           value="#{args.value or ''}"
                            class="form-control" />
                     <span class="input-group-addon">
                         <span class="glyphicon-calendar glyphicon">
@@ -34,6 +33,7 @@ exports.DateTimePicker = (args) ->
                     $(function() {
                         $('#datetimepicker1').datetimepicker(
                             {language: 'pt-BR'});
+                        $('#datetimepicker1').data('DateTimePicker').setDate(new Date("#{args.value}"));
                     });
                 });
                 """}
