@@ -1,5 +1,5 @@
 React = require 'react'
-{div, h1, p, ul, li, span, a, button, img} = React.DOM
+{div, h1, p, ul, li, span, a, button, img, small} = React.DOM
 PageBase = require './portlets/base'
 CountDown = require './portlets/countdown'
 FlipClock = require './portlets/flipclock'
@@ -94,9 +94,15 @@ EventViewPage = React.createClass
                     style:
                         "font-size": "45px"
                         "font-weight": "bold"
-                        "margin-bottom": "10%"
                         "margin-top": "10%"
                     @props.event.title
+
+                div
+                    className: "text-center event-deadline-header"
+                    style:
+                        "margin-bottom": "5%"
+                    "(#{(new Date @props.event.deadLine).toLocaleString()})"
+
 
                 div {className: "row"},
                     div {className: "col-md-12 text-right h-pr-0"},
