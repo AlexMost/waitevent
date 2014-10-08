@@ -21,14 +21,26 @@ TopMenu = React.createClass
                         className: "color-default"},
                         "Home"))
 
+                if @props.user.joinedEvents.length
+                    (li {className: "top-menu-item"},
+                        (span {
+                            className: "glyphicon glyphicon-star"
+                            style: "margin-right": "5px"})
+                        (a {
+                            href: "/joined_events"
+                            className: "color-default"},
+                            "Joined events"
+                            (span
+                                className:"badge h-ml-5"
+                                @props.user.joinedEvents.length)
+                            ))
+
                 (li {className: "top-menu-item"},
-                    (span {
-                        className: "glyphicon glyphicon-th-list"
-                        style: "margin-right": "5px"})
                     (a {
                         href: "/my_events"
                         className: "color-default"},
                         "My events"))
+
                 (li {className: "top-menu-item"},
                     (a {
                         className: "btn btn-success btn-xs"

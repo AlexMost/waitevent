@@ -14,6 +14,7 @@ init = ->
 
             newProps =
                 event: result.event
+                user: result.user
 
             if result.participants
                 newProps.participants = result.participants
@@ -25,6 +26,7 @@ init = ->
             return if err
             newProps =
                 event: result.event
+                user: result.user
 
             if result.participants
                 newProps.participants = result.participants

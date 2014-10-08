@@ -116,7 +116,7 @@ MyEventsEventsListPage = React.createClass
             h1
                 style:
                     "margin-bottom": "5%"
-                "My events"
+                "My events (#{@props.events.length})"
 
             if @props.events.length > 0
                 div {},

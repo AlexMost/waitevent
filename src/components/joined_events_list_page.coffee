@@ -1,5 +1,5 @@
 React = require 'react'
-{div, h1, p, ul, li, span, a, b, small} = React.DOM
+{div, h1, p, ul, li, span, a, b, small, button} = React.DOM
 PageBase = require './portlets/base'
 CountDown = require './portlets/countdown'
 
@@ -12,14 +12,13 @@ EventsItemToolbar = React.createClass
 
     render: ->
         div {},
-            a
-                ref: 'edit_btn'
-                href: "/edit_event/#{@props.event._id}"
-                title: "unjoin"
-                className: "color-default"
-                onMouseEnter: => $(@refs.edit_btn.getDOMNode()).tooltip()
-                span
-                    className: "glyphicon glyphicon-pencil toolbar-icon"
+            button
+                ref: "unjoin_btn"
+                className: "h-ml-5 btn btn-default btn-xs"
+                onClick: => @props.onUnjoin @props.event
+                title: "unjoin event"
+                onMouseEnter: => $(@refs.unjoin_btn.getDOMNode()).tooltip()
+                span {className: "glyphicon glyphicon-minus"}
 
 
 EventListItem = React.createClass
@@ -47,6 +46,7 @@ EventListItem = React.createClass
                         new EventsItemToolbar
                             event: @props.event
                             onDelete: @props.onDelete
+                            onUnjoin: @props.onUnjoin
 
             div {className: "panel-body"},
                 p {}, @props.event.description
@@ -68,6 +68,7 @@ EventsGroup = React.createClass
                     {
                         event
                         onDelete: @props.onDelete
+                        onUnjoin: @props.onUnjoin
                     })
 
 
@@ -92,9 +93,7 @@ JoinedEventsEventsListPage = React.createClass
             div {},
                 new EventsGroup
                     events: @props.events
-                    onDelete: (event) =>
-                        @setState {delItem: event}, =>
-                            @refs.delete_modal.show()
+                    onUnjoin: @props.onUnjoinEvent
             
 
 module.exports = JoinedEventsEventsListPage

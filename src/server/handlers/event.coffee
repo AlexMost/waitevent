@@ -53,6 +53,7 @@ exports.create_event_get = (req, res) ->
 
 exports.create_event_post = (req, res) ->
     errors = validate_ev_from_req req
+    user = req.user
 
     if errors
         reactRender(
@@ -85,8 +86,10 @@ exports.create_event_post = (req, res) ->
 
         newEvent.participants.push req.user
         newEvent.save (err, event) ->
-            # TODO: handle error
-            res.redirect "/event/#{event._id}"
+            user.joinedEvents.push event._id
+            user.save (err, user) ->
+                # TODO: handle error
+                res.redirect "/event/#{event._id}"
 
 
 exports.edit_event_get = (req, res) ->
@@ -166,6 +169,7 @@ exports.join_event = (req, res) ->
                 status: "ok"
                 action: "joined"
                 event: event
+                user: user
                 participants: participants
             )
     ).fail (error) ->
@@ -196,7 +200,7 @@ exports.unjoin_event = (req, res) ->
         event.save (err, event) ->
             user.save (err, user) ->
                 res.json(
-                    {status: "ok", action: "joined", event, participants})
+                    {status: "ok", action: "joined", event, user, participants})
     ).fail((err) ->
         console.log err.stack
         res.send(403).end()
