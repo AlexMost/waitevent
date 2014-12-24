@@ -3,14 +3,13 @@ waitevent
 
 waitevent
 
-mockups - https://moqups.com/#!/edit/AlexMost/2mHT12qJ
+demo-site - [http://www.wait-event.com/](wait-event.com)
 
 Development info
 ================
-1. vagrant box add waitevent https://www.dropbox.com/s/78azw9ningypfh3/waitevent-dev.box?dl=1
-2. vagrant up
-3. npm install .
-4. bower install .
-5. gulp dev
+1. clone repo
+2. npm install .
+3. bower install .
+4. gulp dev
 
 
