@@ -3,7 +3,7 @@ waitevent
 
 waitevent
 
-demo-site - [http://www.wait-event.com/](wait-event.com)
+demo-site - [http://www.wait-event.com/](http://www.wait-event.com/)
 
 Development info
 ================
