@@ -1,15 +1,18 @@
 waitevent
 =========
 
-waitevent
+demo - [http://www.wait-event.com/](http://www.wait-event.com/)
+![waitevent screen](https://raw.githubusercontent.com/AlexMost/waitevent/master/thirdparty/img/app_screen.png)
 
-demo-site - [http://www.wait-event.com/](http://www.wait-event.com/)
+Description
+=========
+Little service for creating event countdowns and sharing.
+
 
 Development info
 ================
-1. clone repo
-2. npm install .
-3. bower install .
-4. gulp dev
+1. npm install .
+2. bower install .
+3. gulp dev
 
 
